@@ -8,6 +8,7 @@ export default defineConfig({
   site: "https://habiibullahm.my.id/",
   integrations: [mdx()],
   vite: {
+    build: { assetsInlineLimit: 0 },
     plugins: [tailwindcss()],
   },
 });

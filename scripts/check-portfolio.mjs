@@ -50,6 +50,11 @@ for (const [, target] of homepage.matchAll(/\bhref="([^"]+)"/g)) {
 const pages = readdirSync("dist", { recursive: true }).filter((path) => path.endsWith(".html"));
 for (const path of pages) {
   const page = readPage(path);
+  for (const [, attributes] of page.matchAll(/<script\b([^>]*)>/g)) {
+    if (/\btype="module"/.test(attributes)) {
+      assert.match(attributes, /\bsrc="/, `${path}: module scripts remain compatible with CSP`);
+    }
+  }
   for (const [, target] of page.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
     if (!target.startsWith("/") && !target.startsWith("#")) continue;
     const url = new URL(target, `https://habiibullahm.my.id/${path.replaceAll("\\", "/")}`);
