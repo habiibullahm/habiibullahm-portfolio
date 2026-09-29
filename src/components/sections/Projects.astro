@@ -30,16 +30,16 @@ function projectLinks(project: CollectionEntry<"projects">) {
 ---
 
 <section id="projects" data-section class="section-anchor border-b border-line">
-  <div class="mx-auto max-w-6xl px-4 pb-16 pt-8 md:px-6 md:pb-20 md:pt-10">
-    <p class="font-mono text-xs tracking-widest text-muted">SELECTED WORK</p>
-    <h2 class="mt-2 text-2xl md:text-3xl">Selected engineering work</h2>
+  <div class="portfolio-section" data-reveal>
+    <p class="font-mono text-[11px] tracking-widest text-accent">02 / ENGINEERING WORK</p>
+    <h2 class="mt-3 text-3xl md:text-4xl">More systems, built and shipped.</h2>
 
-    <ul class="mt-10 grid gap-6 lg:grid-cols-2">
+    <ul class="mt-10 divide-y divide-line border-t border-line">
       {
-        featured.map((project) => {
+        featured.map((project, index) => {
           const { live, repo, imageSrc } = projectLinks(project);
           return (
-            <li class="grid gap-4 rounded-lg border border-line bg-white p-5 sm:grid-cols-[5rem_1fr] sm:items-start sm:gap-5 md:p-6">
+            <li class="grid gap-4 py-7 sm:grid-cols-[5rem_1fr] sm:items-start sm:gap-6">
               {imageSrc ? (
                 <div class={thumbClass}>
                   <img
@@ -56,7 +56,8 @@ function projectLinks(project: CollectionEntry<"projects">) {
                 <p class="font-mono text-xs tracking-wide text-muted">
                   {project.data.client} · {project.data.domain}
                 </p>
-                <h3 class="mt-2 text-xl md:text-2xl">
+                <h3 class="mt-2 flex flex-wrap items-baseline gap-3 text-xl md:text-2xl">
+                  <span class="font-mono text-xs text-accent">{String(index + 3).padStart(2, "0")} /</span>
                   <a
                     href={`/projects/${project.id}`}
                     class="text-ink no-underline hover:text-accent"
@@ -69,7 +70,7 @@ function projectLinks(project: CollectionEntry<"projects">) {
                     {project.data.stack.join(" · ")}
                   </p>
                 ) : null}
-                <p class="mt-3 text-muted">{project.data.outcome}</p>
+                <p class="mt-3 max-w-3xl text-sm text-muted">{project.data.outcome}</p>
                 <div class="mt-4 flex flex-wrap gap-4 font-display text-sm">
                   <a
                     href={`/projects/${project.id}`}
@@ -108,12 +109,12 @@ function projectLinks(project: CollectionEntry<"projects">) {
     {
       toolHelpers.length > 0 && (
         <div class="mt-16 border-t border-line pt-12">
-          <p class="font-mono text-xs tracking-widest text-muted">TOOL HELPER</p>
+          <p class="font-mono text-[11px] tracking-widest text-accent">AUTOMATION & TOOLS</p>
           <h3 class="mt-2 font-display text-lg md:text-xl">
             Telegram bots for hiring, job search, and market signals
           </h3>
           <ul class="mt-8 space-y-10">
-            {toolHelpers.map((project) => {
+            {toolHelpers.map((project, index) => {
               const { live, repo, imageSrc } = projectLinks(project);
               return (
                 <li class="grid gap-4 md:grid-cols-[8rem_1fr] md:items-start md:gap-6">
@@ -133,7 +134,8 @@ function projectLinks(project: CollectionEntry<"projects">) {
                     <p class="font-mono text-xs tracking-wide text-muted">
                       {project.data.domain}
                     </p>
-                    <h4 class="mt-1 text-lg md:text-xl">
+                    <h4 class="mt-1 flex flex-wrap items-baseline gap-3 text-lg md:text-xl">
+                      <span class="font-mono text-xs text-accent">{String(index + featured.length + 3).padStart(2, "0")} /</span>
                       <a
                         href={`/projects/${project.id}`}
                         class="text-ink no-underline hover:text-accent"

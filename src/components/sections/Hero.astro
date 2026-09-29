@@ -1,88 +1,38 @@
 ---
-import { nav, safeExternalUrl, site } from "../../data/site";
-
-const heroNav = nav;
+import { safeExternalUrl, site } from "../../data/site";
 const aiServices = safeExternalUrl(site.aiServicesUrl);
+const technologies = site.technologies.split(" · ");
+const toolkit = [technologies.slice(0, 2), technologies.slice(2, 5), technologies.slice(5)];
 ---
 
-<section
-  id="home"
-  data-section
-  class="section-anchor relative overflow-hidden border-b border-line"
->
-  <div class="mx-auto max-w-6xl px-4 pb-16 pt-6 md:px-6 md:pb-24 md:pt-8">
-    <div class="flex items-center justify-between gap-3">
-      <p class="min-w-0 font-display text-sm font-semibold text-ink">
-        {site.name}
-      </p>
-
-      <nav
-        id="hero-nav"
-        aria-label="Sections"
-        class="hidden shrink-0 md:block"
-      >
-        <ul class="flex items-center gap-3">
-          {
-            heroNav.map((item) => (
-              <li>
-                <a
-                  href={`#${item.id}`}
-                  data-nav-link={item.id}
-                  title={item.label}
-                  class="font-display text-[11px] font-medium tracking-wide text-muted no-underline transition-colors hover:text-ink"
-                >
-                  {item.short}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-    </div>
-
-    <p
-      class="hero-animate mt-12 font-mono text-xs tracking-widest text-accent md:mt-20"
-    >
-      {site.eyebrow}
-    </p>
-    <h1
-      class="hero-animate hero-animate-delay-1 mt-4 max-w-4xl font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl md:text-6xl"
-    >
-      {site.statement}
+<section id="home" data-section class="section-anchor px-2 min-[810px]:px-5">
+  <div class="hero-panel mx-auto max-w-[1400px] px-4 pb-8 pt-32 min-[810px]:px-5 min-[810px]:pt-36 min-[1200px]:px-8 min-[1200px]:pt-44">
+    <h1 class="hero-animate hero-animate-delay-1 text-center font-display text-[clamp(1.75rem,8.75vw,7rem)] font-bold leading-[1.08] tracking-[-0.055em]">
+      AI &amp; FULL-STACK<br />ENGINEER<span class="text-accent">.</span>
     </h1>
-    <p
-      class="hero-animate hero-animate-delay-2 mt-5 max-w-2xl text-base text-muted md:text-lg"
-    >
-      {site.summary}
-    </p>
-    <p class="hero-animate hero-animate-delay-2 mt-5 max-w-3xl font-mono text-xs leading-6 text-muted">
-      {site.technologies}
-    </p>
-    <div class="hero-animate hero-animate-delay-3 mt-8 flex flex-wrap gap-3">
-      <a
-        href="#ai-projects"
-        class="inline-flex items-center rounded-md bg-ink px-5 py-3 font-display text-sm font-medium text-white no-underline transition hover:bg-ink/90"
-      >
-        View my work
-      </a>
-      <a
-        href="/resume"
-        class="inline-flex items-center rounded-md border border-ink/20 bg-transparent px-5 py-3 font-display text-sm font-medium text-ink no-underline transition hover:border-accent hover:text-accent"
-      >
-        View resume
-      </a>
-      {
-        aiServices && (
-          <a
-            href={aiServices}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center rounded-md px-2 py-3 font-display text-sm font-medium text-muted no-underline transition hover:text-accent"
-          >
-            AI Services ↗
-          </a>
-        )
-      }
+    <div class="mt-10 grid items-center gap-8 min-[810px]:grid-cols-[0.85fr_1.4fr_0.85fr] min-[810px]:gap-5 min-[1200px]:gap-8">
+      <div class="hero-animate hero-animate-delay-2 text-center lg:text-left">
+        <p class="mx-auto max-w-sm text-lg font-medium leading-relaxed text-ink lg:mx-0">{site.tagline}</p>
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+          <a href="#ai-projects" class="inline-flex min-h-12 items-center gap-4 rounded-sm bg-accent px-5 py-3 text-sm font-semibold text-mist no-underline transition-colors hover:bg-ink">View Selected Work <span aria-hidden="true">↓</span></a>
+          <a href="/resume" class="inline-flex min-h-12 items-center rounded-sm border border-line px-5 py-3 text-sm text-ink no-underline hover:border-accent">Resume</a>
+        </div>
+        <div class="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-muted lg:justify-start">
+          <a href={site.socials.github} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-accent">GitHub ↗</a>
+          <a href={site.socials.linkedin} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-accent">LinkedIn ↗</a>
+          {aiServices && <a href={aiServices} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-accent">AI Services ↗</a>}
+        </div>
+      </div>
+      <figure class="hero-animate hero-animate-delay-2 mx-auto w-full max-w-sm min-[810px]:max-w-none">
+        <img src="/images/habib-profile.webp" alt="Muhammad Habiibullah" width="480" height="480" fetchpriority="high" class="aspect-square w-full border border-line object-cover" />
+        <figcaption class="mt-4 border border-line bg-mist px-3 py-4 text-center text-sm text-muted"><strong class="block text-[clamp(1.2rem,2.5vw,1.85rem)] font-semibold leading-tight tracking-tight text-ink">Muhammad Habiibullah</strong><span class="mt-3 block">Full-Stack Developer · PT. Dans Multi Pro</span></figcaption>
+      </figure>
+      <div class="hero-animate hero-animate-delay-3 hidden w-full min-[810px]:block">
+        <p class="mb-3 text-center font-mono text-[10px] tracking-widest text-muted">CURRENT TOOLKIT</p>
+        <ul class="grid gap-3">
+          {toolkit.map((group) => <li class="flex min-h-16 items-center justify-center border border-line bg-ink/10 px-4 py-3 text-center text-sm text-ink">{group.join(" · ")}</li>)}
+        </ul>
+      </div>
     </div>
   </div>
 </section>

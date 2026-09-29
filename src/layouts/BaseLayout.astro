@@ -31,7 +31,7 @@ const socialImage = new URL("/images/projects/task-management.png", Astro.site ?
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="theme-color" content="#f7f9fb" />
+    <meta name="theme-color" content="#111114" />
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -57,7 +57,7 @@ const socialImage = new URL("/images/projects/task-management.png", Astro.site ?
   <body>
     <a
       href={skipHref}
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-white"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-mist"
     >
       Skip to content
     </a>
@@ -66,6 +66,7 @@ const socialImage = new URL("/images/projects/task-management.png", Astro.site ?
     <script>
       import "../scripts/hash-scroll.ts";
       import "../scripts/scroll-spy.ts";
+      import "../scripts/scroll-reveal.ts";
     </script>
   </body>
 </html>

@@ -13,6 +13,9 @@ assert.match(homepage, /<meta name="twitter:card" content="summary_large_image"/
 assert.match(homepage, /<link rel="canonical" href="https:\/\/habiibullahm\.my\.id\//);
 assert.match(homepage, /Bidakara AI Assistant/);
 assert.match(homepage, /AGRES AI Sales Assistant/);
+for (const slug of ["bidakara-ai-assistant", "agres-ai-sales-assistant"]) {
+  assert.match(homepage, new RegExp(`<img[^>]+src="/images/projects/${slug}-preview\\.webp"`), `${slug}: homepage renders its project preview`);
+}
 assert.equal(
   [...homepage.matchAll(/href="https:\/\/ai\.habiibullahm\.my\.id\//g)].length,
   2,

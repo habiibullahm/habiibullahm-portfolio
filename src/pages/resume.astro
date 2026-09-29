@@ -89,7 +89,18 @@ const email = `mailto:${site.email}`;
   <style>
     @media print {
       @page { size: A4; margin: 1.5cm; }
-      :global(body) { background: white; }
+      :global(html) { color-scheme: light; }
+      :global(body) {
+        --font-display: Arial, sans-serif;
+        --font-body: Arial, sans-serif;
+        --font-mono: Arial, sans-serif;
+        --color-ink: #16161a;
+        --color-muted: #4a4a54;
+        --color-line: #d6d6de;
+        --color-accent: #453279;
+        background: white;
+        color: #16161a;
+      }
       :global(body > a), :global(body > footer), :global(#scroll-top), header, #print-resume { display: none; }
       .resume-sheet { padding: 0; }
       .resume-sheet h1 { font-size: 2rem; }

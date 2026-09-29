@@ -2,7 +2,8 @@ export const site = {
   name: "Muhammad Habiibullah",
   initials: "MH",
   eyebrow: "AI & FULL-STACK ENGINEER · JAKARTA, INDONESIA",
-  statement: "Building practical products from idea to production.",
+  statement: "AI & Full-Stack Engineer",
+  tagline: "I build practical AI systems and production software for real-world problems.",
   summary:
     "I build production-ready web applications and practical AI systems across frontend, backend, databases, RAG, LLM integrations, automation, and deployment.",
   technologies: "TypeScript · React · Node.js · PostgreSQL · Spring Boot · RAG · LLMs",

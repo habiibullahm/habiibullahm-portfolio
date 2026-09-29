@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="MH">
-  <rect width="32" height="32" rx="7" fill="#182638"/>
+  <rect width="32" height="32" rx="7" fill="#111114"/>
   <path
-    fill="#f7f9fb"
+    fill="#f3f2f5"
     d="M5.5 21.5V9.5h2.35l2.7 7.7 2.7-7.7H15.6v12h-2.05v-8.55l-2.55 7.25h-1.2L7.55 12.95v8.55H5.5Z"
   />
   <path
-    fill="#f7f9fb"
+    fill="#f3f2f5"
     d="M17.75 21.5V9.5h2.1v4.95h3.55V9.5h2.1v12h-2.1v-5.25h-3.55v5.25h-2.1Z"
   />
-  <rect x="8" y="24.35" width="16" height="1.4" rx="0.7" fill="#0d9488"/>
+  <rect x="8" y="24.35" width="16" height="1.4" rx="0.7" fill="#c1a6ff"/>
 </svg>
