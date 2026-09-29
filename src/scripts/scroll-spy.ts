@@ -3,6 +3,7 @@ import { syncAllNavLinks } from "./nav-active";
 /** Section ids observed for scroll-spy (aligned with primary nav). */
 const sections = [
   "home",
+  "ai-projects",
   "contributions",
   "projects",
   "about",

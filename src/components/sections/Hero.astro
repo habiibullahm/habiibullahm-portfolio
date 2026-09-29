@@ -1,8 +1,8 @@
 ---
 import { nav, safeExternalUrl, site } from "../../data/site";
 
-const mailto = safeExternalUrl(`mailto:${site.email}`);
-const heroNav = nav.filter((item) => item.id !== "home");
+const heroNav = nav;
+const aiServices = safeExternalUrl(site.aiServicesUrl);
 ---
 
 <section
@@ -10,22 +10,10 @@ const heroNav = nav.filter((item) => item.id !== "home");
   data-section
   class="section-anchor relative overflow-hidden border-b border-line"
 >
-  <div
-    class="pointer-events-none absolute inset-0 -z-10"
-    aria-hidden="true"
-    style="
-      background:
-        radial-gradient(ellipse 80% 60% at 15% 10%, color-mix(in srgb, var(--color-accent-soft) 70%, transparent), transparent 55%),
-        radial-gradient(ellipse 50% 40% at 90% 20%, color-mix(in srgb, var(--color-accent) 12%, transparent), transparent 50%),
-        var(--color-mist);
-    "
-  >
-  </div>
-
   <div class="mx-auto max-w-6xl px-4 pb-16 pt-6 md:px-6 md:pb-24 md:pt-8">
     <div class="flex items-center justify-between gap-3">
-      <p class="min-w-0 font-mono text-xs tracking-widest text-muted">
-        {site.eyebrow}
+      <p class="min-w-0 font-display text-sm font-semibold text-ink">
+        {site.name}
       </p>
 
       <nav
@@ -52,37 +40,46 @@ const heroNav = nav.filter((item) => item.id !== "home");
       </nav>
     </div>
 
-    <h1
-      class="hero-animate mt-4 font-display text-4xl font-semibold leading-tight text-ink md:text-6xl"
-    >
-      {site.name}
-    </h1>
     <p
-      class="hero-animate hero-animate-delay-1 mt-5 text-xl leading-snug text-ink md:mt-6 md:text-3xl"
+      class="hero-animate mt-12 font-mono text-xs tracking-widest text-accent md:mt-20"
+    >
+      {site.eyebrow}
+    </p>
+    <h1
+      class="hero-animate hero-animate-delay-1 mt-4 max-w-4xl font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl md:text-6xl"
     >
       {site.statement}
-      {" "}
-      <em class="not-italic text-accent">{site.statementEmphasis}.</em>
-    </p>
+    </h1>
     <p
       class="hero-animate hero-animate-delay-2 mt-5 max-w-2xl text-base text-muted md:text-lg"
     >
       {site.summary}
     </p>
+    <p class="hero-animate hero-animate-delay-2 mt-5 max-w-3xl font-mono text-xs leading-6 text-muted">
+      {site.technologies}
+    </p>
     <div class="hero-animate hero-animate-delay-3 mt-8 flex flex-wrap gap-3">
       <a
-        href="#projects"
+        href="#ai-projects"
         class="inline-flex items-center rounded-md bg-ink px-5 py-3 font-display text-sm font-medium text-white no-underline transition hover:bg-ink/90"
       >
-        Selected work
+        View my work
+      </a>
+      <a
+        href="/resume"
+        class="inline-flex items-center rounded-md border border-ink/20 bg-transparent px-5 py-3 font-display text-sm font-medium text-ink no-underline transition hover:border-accent hover:text-accent"
+      >
+        View resume
       </a>
       {
-        mailto && (
+        aiServices && (
           <a
-            href={mailto}
-            class="inline-flex items-center rounded-md border border-ink/20 bg-transparent px-5 py-3 font-display text-sm font-medium text-ink no-underline transition hover:border-accent hover:text-accent"
+            href={aiServices}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md px-2 py-3 font-display text-sm font-medium text-muted no-underline transition hover:text-accent"
           >
-            Email
+            AI Services ↗
           </a>
         )
       }

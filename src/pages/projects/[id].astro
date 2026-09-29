@@ -16,7 +16,7 @@ const { data } = project;
 
 const live = data.links?.live ? safeExternalUrl(data.links.live) : null;
 const repo = data.links?.repo ? safeExternalUrl(data.links.repo) : null;
-const imageSrc = safeSitePath(data.image);
+const imageSrc = data.image ? safeSitePath(data.image) : null;
 
 type PreviewImage = {
   type: "image";
@@ -69,7 +69,7 @@ const imagePreviews = previews.filter(
 const otherPreviews = previews.filter((item) => item.type !== "image");
 
 const sectionLabel =
-  data.section === "tool-helper" ? "Tool Helper" : "Featured";
+  data.section === "tool-helper" ? "Tool Helper" : data.section === "ai" ? "Applied AI" : "Selected Work";
 const isPhonePreview = data.section === "tool-helper";
 const previewImgClass = isPhonePreview
   ? "mx-auto h-auto w-full max-w-[16rem] rounded-md border border-line sm:mx-0 sm:max-w-[18rem]"

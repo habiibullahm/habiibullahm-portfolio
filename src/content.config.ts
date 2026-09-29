@@ -50,11 +50,11 @@ const projects = defineCollection({
     domain: z.string(),
     order: z.number(),
     /** featured = main Projects list; tool-helper = Tool Helper subsection */
-    section: z.enum(["featured", "tool-helper"]).default("featured"),
+    section: z.enum(["ai", "featured", "tool-helper"]).default("featured"),
     stack: z.array(z.string()).min(1),
     /** Site-relative only (OWASP: no remote/scriptable image URLs). */
-    image: rootRelativePath,
-    imageAlt: z.string(),
+    image: rootRelativePath.optional(),
+    imageAlt: z.string().default(""),
     what: z.string(),
     why: z.string(),
     how: z.string(),

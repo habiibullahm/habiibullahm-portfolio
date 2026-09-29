@@ -2,18 +2,31 @@
 import { safeExternalUrl, site } from "../data/site";
 
 const year = new Date().getFullYear();
+const aiServices = safeExternalUrl(site.aiServicesUrl);
 const github = safeExternalUrl(site.socials.github);
 const linkedin = safeExternalUrl(site.socials.linkedin);
 ---
 
 <footer class="bg-ink text-mist">
   <div
-    class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-10 md:px-6"
+    class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 px-4 py-10 sm:flex-row sm:items-center md:px-6"
   >
     <p class="font-display text-sm">
       © {year} {site.name}.
     </p>
     <div class="flex items-center gap-4">
+      {
+        aiServices && (
+          <a
+            href={aiServices}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-display text-sm text-mist/80 no-underline transition hover:text-mist"
+          >
+            AI Services ↗
+          </a>
+        )
+      }
       {
         github && (
           <a

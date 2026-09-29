@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { education, experience, focusAreas, site } from "../data/site";
+
+const email = `mailto:${site.email}`;
+---
+
+<BaseLayout title={`${site.name} — AI & Full-Stack Engineer | Resume`}>
+  <header class="border-b border-line">
+    <nav aria-label="Resume navigation" class="mx-auto flex max-w-4xl items-center justify-between gap-4 px-5 py-4">
+      <a href="/#home" class="font-display text-sm font-semibold text-ink no-underline hover:text-accent">{site.name}</a>
+      <div class="flex items-center gap-4 font-display text-sm">
+        <a href="/#projects" class="text-muted no-underline hover:text-ink">Portfolio</a>
+        <button id="print-resume" type="button" class="min-h-10 rounded-md border border-line px-3 text-ink hover:border-accent">Print / Save PDF</button>
+      </div>
+    </nav>
+  </header>
+  <main id="main" class="resume-sheet mx-auto max-w-4xl px-5 py-10 sm:py-14 print:py-0">
+    <p class="font-mono text-xs tracking-widest text-accent">{site.eyebrow}</p>
+    <h1 class="mt-3 font-display text-4xl font-semibold tracking-tight sm:text-5xl">{site.name}</h1>
+    <p class="mt-2 font-display text-xl text-muted">AI & Full-Stack Engineer</p>
+    <p class="mt-5 max-w-2xl leading-relaxed text-muted">Production-ready web applications and practical AI systems across frontend, backend, RAG, LLM integration, and deployment.</p>
+    <ul class="mt-5 flex flex-wrap gap-x-5 gap-y-2 font-display text-sm">
+      <li><a href={email} class="text-accent">{site.email}</a></li>
+      <li><a href={site.socials.linkedin} target="_blank" rel="noopener noreferrer" class="text-accent">LinkedIn</a></li>
+      <li><a href={site.socials.github} target="_blank" rel="noopener noreferrer" class="text-accent">GitHub</a></li>
+    </ul>
+
+    <section class="mt-9 border-t border-line pt-6" aria-labelledby="resume-experience">
+      <h2 id="resume-experience" class="font-display text-xl font-semibold">Experience</h2>
+      <ul class="mt-4 space-y-6">
+        {experience.map((item) => (
+          <li>
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h3 class="font-display font-semibold">{item.role} <span class="font-normal text-muted">· {item.company}</span></h3>
+              <p class="font-mono text-xs text-muted">{item.years}</p>
+            </div>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{item.win}</p>
+            <p class="mt-2 font-mono text-[11px] leading-relaxed text-muted">{item.stack.join(" · ")}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-8 border-t border-line pt-6" aria-labelledby="resume-projects">
+      <h2 id="resume-projects" class="font-display text-xl font-semibold">Selected AI projects</h2>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+        <li>
+          <h3 class="font-display font-semibold">Bidakara AI Assistant</h3>
+          <p class="mt-1 text-sm leading-relaxed text-muted">Grounded business-information answers, source-aware responses, guardrails, and fallback behavior.</p>
+        </li>
+        <li>
+          <h3 class="font-display font-semibold">AGRES AI Sales Assistant</h3>
+          <p class="mt-1 text-sm leading-relaxed text-muted">Conversational product discovery, budget-aware recommendations, lead qualification, and next best action.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-8 border-t border-line pt-6" aria-labelledby="resume-skills">
+      <h2 id="resume-skills" class="font-display text-xl font-semibold">Engineering capabilities</h2>
+      <ul class="mt-3 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+        {focusAreas.map((item) => (
+          <li>
+            <h3 class="font-display text-sm font-semibold">{item.title}</h3>
+            <p class="mt-1 text-sm leading-relaxed text-muted">{item.blurb}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-8 border-t border-line pt-6" aria-labelledby="resume-education">
+      <h2 id="resume-education" class="font-display text-xl font-semibold">Education</h2>
+      <ul class="mt-3">
+        {education.map((item) => (
+          <li>
+            <h3 class="font-display text-sm font-semibold">{item.title}</h3>
+            <p class="mt-1 text-sm text-muted">{item.org}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("#print-resume")) window.print();
+    });
+  </script>
+  <style>
+    @media print {
+      @page { size: A4; margin: 1.5cm; }
+      :global(body) { background: white; }
+      :global(body > a), :global(body > footer), :global(#scroll-top), header, #print-resume { display: none; }
+      .resume-sheet { padding: 0; }
+      .resume-sheet h1 { font-size: 2rem; }
+      .resume-sheet > section { margin-top: 1rem; padding-top: 0.75rem; break-inside: avoid; }
+    }
+  </style>
+</BaseLayout>

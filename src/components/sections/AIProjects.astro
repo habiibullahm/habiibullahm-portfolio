@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import { safeExternalUrl } from "../../data/site";
+
+const projects = (await getCollection("projects"))
+  .filter((project) => !project.data.draft && project.data.section === "ai")
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="ai-projects" data-section class="section-anchor border-b border-line">
+  <div class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
+    <p class="font-mono text-xs tracking-widest text-accent">APPLIED AI · BUILT AND DEPLOYED</p>
+    <h2 class="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight md:text-4xl">
+      AI products I've built.
+    </h2>
+    <p class="mt-3 max-w-xl text-muted">Practical assistants built for real business and customer needs.</p>
+    <ul class="mt-10 grid gap-5 lg:grid-cols-2">
+      {projects.map((project, index) => {
+        const live = project.data.links?.live
+          ? safeExternalUrl(project.data.links.live)
+          : null;
+        const detail = `/projects/${project.id}`;
+
+        return (
+          <li class="flex flex-col rounded-lg border border-line bg-white p-6 transition-colors hover:border-accent sm:p-8 motion-reduce:transition-none">
+            <p class="font-mono text-xs tracking-wider text-muted">
+              AI PROJECT · {String(index + 1).padStart(2, "0")}
+            </p>
+            <h3 class="mt-4 font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+              <a href={detail} class="text-ink no-underline hover:text-accent">
+                {project.data.title}
+              </a>
+            </h3>
+            <p class="mt-3 leading-relaxed text-muted">{project.data.outcome}</p>
+            <p class="mt-6 font-mono text-[11px] leading-6 text-muted">
+              {project.data.stack.join(" · ")}
+            </p>
+            <div class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-7 font-display text-sm font-medium">
+              <a href={detail} class="inline-flex min-h-11 items-center text-accent underline-offset-4 hover:underline">
+                View project
+              </a>
+              {live && (
+                <a href={live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-accent underline-offset-4 hover:underline">
+                  Try live demo <span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

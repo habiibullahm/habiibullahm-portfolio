@@ -1,6 +1,5 @@
 ---
 import { education, site } from "../../data/site";
-import Focus from "./Focus.astro";
 ---
 
 <section id="about" data-section class="section-anchor border-b border-line">
@@ -11,8 +10,6 @@ import Focus from "./Focus.astro";
     <div class="mt-8 max-w-3xl space-y-5 text-muted">
       {site.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
     </div>
-
-    <Focus />
 
     <p class="mt-14 font-mono text-xs tracking-widest text-muted">EDUCATION</p>
     <ul class="mt-6 space-y-8">

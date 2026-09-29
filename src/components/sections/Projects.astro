@@ -14,7 +14,7 @@ const toolHelpers = projects
   .sort((a, b) => a.data.order - b.data.order);
 
 const thumbClass =
-  "size-28 shrink-0 overflow-hidden rounded-md border border-line bg-mist md:size-32";
+  "size-20 shrink-0 overflow-hidden rounded-md border border-line bg-mist";
 const thumbImgClass = "size-full object-cover";
 
 function projectLinks(project: CollectionEntry<"projects">) {
@@ -24,22 +24,22 @@ function projectLinks(project: CollectionEntry<"projects">) {
   const repo = project.data.links?.repo
     ? safeExternalUrl(project.data.links.repo)
     : null;
-  const imageSrc = safeSitePath(project.data.image);
+  const imageSrc = project.data.image ? safeSitePath(project.data.image) : null;
   return { live, repo, imageSrc };
 }
 ---
 
 <section id="projects" data-section class="section-anchor border-b border-line">
   <div class="mx-auto max-w-6xl px-4 pb-16 pt-8 md:px-6 md:pb-20 md:pt-10">
-    <p class="font-mono text-xs tracking-widest text-muted">PROJECTS</p>
-    <h2 class="mt-2 text-2xl md:text-3xl">Things I've shipped</h2>
+    <p class="font-mono text-xs tracking-widest text-muted">SELECTED WORK</p>
+    <h2 class="mt-2 text-2xl md:text-3xl">Selected engineering work</h2>
 
-    <ul class="mt-12 space-y-12">
+    <ul class="mt-10 grid gap-6 lg:grid-cols-2">
       {
         featured.map((project) => {
           const { live, repo, imageSrc } = projectLinks(project);
           return (
-            <li class="grid gap-4 md:grid-cols-[8rem_1fr] md:items-start md:gap-6">
+            <li class="grid gap-4 rounded-lg border border-line bg-white p-5 sm:grid-cols-[5rem_1fr] sm:items-start sm:gap-5 md:p-6">
               {imageSrc ? (
                 <div class={thumbClass}>
                   <img
@@ -54,7 +54,7 @@ function projectLinks(project: CollectionEntry<"projects">) {
               ) : null}
               <div>
                 <p class="font-mono text-xs tracking-wide text-muted">
-                  Featured · {project.data.domain}
+                  {project.data.client} · {project.data.domain}
                 </p>
                 <h3 class="mt-2 text-xl md:text-2xl">
                   <a

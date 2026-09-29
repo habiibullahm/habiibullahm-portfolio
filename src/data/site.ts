@@ -1,72 +1,67 @@
 export const site = {
   name: "Muhammad Habiibullah",
   initials: "MH",
-  eyebrow: "FULL-STACK DEVELOPER · JAKARTA",
-  statement: "I design, build, and deploy end-to-end web applications that",
-  statementEmphasis: "ship fast",
+  eyebrow: "AI & FULL-STACK ENGINEER · JAKARTA, INDONESIA",
+  statement: "Building practical products from idea to production.",
   summary:
-    "Shipping secure APIs and full-stack products end to end — and picking up real LLM integration work along the way, from grounded Q&A to podcast summarization.",
+    "I build production-ready web applications and practical AI systems across frontend, backend, databases, RAG, LLM integrations, automation, and deployment.",
+  technologies: "TypeScript · React · Node.js · PostgreSQL · Spring Boot · RAG · LLMs",
   about: {
-    lead: "Building the bridge between business strategy and production code.",
+    lead: "Product-minded engineering, from application architecture to applied AI.",
     paragraphs: [
-      "I'm Habib—a Jakarta-based full-stack developer who took a slightly unconventional path into software engineering. While earning my Business Management degree at the University of Informatics and Business Indonesia (GPA 3.61), I realized I wanted to be the person actually building the products. That business background stuck with me, shaping how I approach tech today: I don't just ask how to build a feature, but why it matters to the user and the business.",
-      "Currently at PT. Dans Multi Pro, I build end-to-end enterprise solutions for telecommunications clients. Day-to-day, that means engineering Java/Spring Boot microservices, tuning PostgreSQL queries, and crafting web and mobile interfaces with React and React Native. On the side, I occasionally tinker with open-source integrations on Pipedream to stay sharp with new tooling.",
-      "Outside work, I've been picking up AI engineering by building real projects — a Telegram bot that answers questions about live stock data through a grounded LLM feature designed to never invent numbers, and a podcast tracker that transcribes episodes with Whisper and summarizes them grounded in the actual transcript instead of a guess from the title. Whether I'm hardening API security, integrating LLM features, or optimizing database performance, my goal stays the same: shipping clean, reliable software that solves real problems.",
+      "I'm Habib, a Jakarta-based engineer with a Business Management degree (GPA 3.61) and a practical, product-minded approach to software. I enjoy working out what a product needs and building the systems behind it.",
+      "At PT. Dans Multi Pro, I develop end-to-end enterprise applications for telecommunications clients, spanning Java and Spring Boot services, PostgreSQL, and React and React Native applications.",
+      "I also build applied AI products: business assistants that ground responses in useful information and a podcast application that summarizes real transcripts. My focus is building useful features with dependable behavior, from frontend and backend through deployment.",
     ],
   },
   email: "mr.habiibullahm@gmail.com",
+  aiServicesUrl: "https://ai.habiibullahm.my.id/",
   socials: {
     github: "https://github.com/habiibullahm",
     linkedin: "https://www.linkedin.com/in/muhammad-habibullah/",
   },
   seo: {
-    title: "Muhammad Habiibullah · Full-Stack Software Developer",
+    title: "Muhammad Habiibullah — AI & Full-Stack Engineer",
     description:
-      "Muhammad Habiibullah — full-stack developer in Jakarta. Helps teams build and launch reliable web products.",
+      "AI & Full-Stack Engineer building production-ready web applications, RAG systems, AI assistants, automation, and scalable backend systems.",
   },
   contactBlurb:
-    "Currently Full-Stack Developer at PT. Dans Multi Pro. Open to new opportunities — email.",
+    "Currently a Full-Stack Developer at PT. Dans Multi Pro and open to opportunities in AI and full-stack engineering.",
 } as const;
 
 export const nav = [
-  { id: "home", label: "Home", short: "Home", href: "#home" },
-  {
-    id: "contributions",
-    label: "Contributions",
-    short: "OSS",
-    href: "#contributions",
-  },
-  { id: "projects", label: "Projects", short: "Projects", href: "#projects" },
+  { id: "projects", label: "Work", short: "Work", href: "#projects" },
+  { id: "ai-projects", label: "AI Projects", short: "AI projects", href: "#ai-projects" },
+  { id: "experience", label: "Experience", short: "Experience", href: "#experience" },
   { id: "about", label: "About", short: "About", href: "#about" },
-  { id: "experience", label: "Experience", short: "Exp.", href: "#experience" },
   { id: "contact", label: "Contact", short: "Contact", href: "#contact" },
 ] as const;
 
 export const focusAreas = [
   {
-    title: "Secure REST APIs",
+    title: "Product Engineering",
     blurb:
-      "Build Spring Boot APIs with clear endpoints, JWT/RBAC auth, and production-minded access control.",
+      "React, TypeScript, responsive web applications, and progressive web apps.",
   },
   {
-    title: "AI & LLM Integration (leveling up)",
+    title: "Applied AI",
     blurb:
-      "Currently deepening this — shipped a grounded LLM feature (prompt design against hallucination, multi-provider fallback via Groq/Claude, structured JSON output with parsing fallbacks) and operate self-hosted multi-agent CLI tooling on my own VPS.",
+      "RAG, LLM integrations, embeddings, grounded AI assistants, prompt design, evaluation, and guardrails.",
   },
   {
-    title: "Full-Stack Delivery",
+    title: "Backend & APIs",
     blurb:
-      "Ship web products end to end—admin portals and apps wired to real backend services.",
+      "Node.js, Java, Spring Boot, REST APIs, authentication, and API design.",
   },
   {
-    title: "Platform & Performance",
+    title: "Data & Platforms",
     blurb:
-      "Support releases with Redis, Docker, and CI/CD so shipping stays repeatable.",
+      "PostgreSQL, Prisma, Redis, Docker, and CI/CD.",
   },
   {
-    title: "Production Reliability",
+    title: "Delivery & Reliability",
     blurb:
-      "Keep systems steady after deploy—query tuning, automated tests, and careful API habits.",
+      "Vercel, VPS deployments, testing, production debugging, and reliable releases.",
   },
 ] as const;
 

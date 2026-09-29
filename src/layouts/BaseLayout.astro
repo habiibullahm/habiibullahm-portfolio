@@ -18,10 +18,10 @@ const {
   description = site.seo.description,
   skipHref = "#main",
 } = Astro.props;
-
-const canonicalUrl = Astro.site
+const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : Astro.url.href;
+const socialImage = new URL("/images/projects/task-management.png", Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
@@ -31,12 +31,18 @@ const canonicalUrl = Astro.site
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="canonical" href={canonicalUrl} />
-    <meta property="og:url" content={canonicalUrl} />
+    <meta name="theme-color" content="#f7f9fb" />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/projects/task-management.png" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <ClientRouter />
