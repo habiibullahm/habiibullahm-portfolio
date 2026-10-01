@@ -30,15 +30,10 @@ export const site = {
     "Currently a Full-Stack Developer at PT. Dans Multi Pro and open to opportunities in AI and full-stack engineering.",
 } as const;
 
-export const selectedProjectIds: readonly string[] = [
-  "bidakara-ai-assistant", "agres-ai-sales-assistant", "task-management",
-];
-
 export const nav = [
-  { id: "projects", label: "Work", short: "Work", href: "#projects" },
+  { id: "projects", label: "Projects", short: "Projects", href: "#projects" },
   { id: "experience", label: "Experience", short: "Experience", href: "#experience" },
   { id: "about", label: "About", short: "About", href: "#about" },
-  { id: "contact", label: "Contact", short: "Contact", href: "#contact" },
 ] as const;
 
 export const focusAreas = [
@@ -76,6 +71,7 @@ export const contributions = [
     outcome:
       "Merged PR #20969 — Freshdesk Ticket Summary actions on Pipedream (11k+ ★ open-source repo).",
     href: "https://github.com/PipedreamHQ/pipedream/pull/20969",
+    repo: "https://github.com/PipedreamHQ/pipedream",
   },
 ] as const;
 

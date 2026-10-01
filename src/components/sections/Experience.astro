@@ -5,7 +5,7 @@ import { experience } from "../../data/site";
   <div class="portfolio-section">
     <div class="section-heading">
       <span class="section-rule" data-line-reveal="experience-line" aria-hidden="true"></span>
-      <p class="section-kicker">04 / Experience</p>
+      <p class="section-kicker">02 / Experience</p>
       <h2 id="experience-heading" class="section-title" data-reveal="experience-heading">Building in production.</h2>
     </div>
     <ul>{experience.map((item, index) => <li class="index-row" data-reveal={`experience-${index}`}><p class="font-mono text-xs text-muted">{item.years}</p><div><h3 class="text-2xl md:text-3xl">{item.role}</h3><p class="mt-2 text-accent">{item.company}</p><p class="mt-5 max-w-2xl text-muted">{item.summary}</p><p class="mt-5 font-mono text-xs text-muted">{item.stack.join(" · ")}</p></div></li>)}</ul>

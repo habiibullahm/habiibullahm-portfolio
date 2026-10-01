@@ -58,7 +58,8 @@
 }
 
 @layer utilities {
-  .section-anchor { scroll-margin-top: 112px; }
+  .section-anchor { scroll-margin-top: 88px; }
+  @media (min-width: 768px) { .section-anchor { scroll-margin-top: 112px; } }
   html.await-hash:not(.hash-ready) body { visibility: hidden; }
 }
 
@@ -66,7 +67,4 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
   .motion-cta:hover, a:hover .motion-arrow { transform: none; }
-}
-@media print {
-  [data-project-cursor], .showcase-panel { display: none !important; }
 }

@@ -1,19 +1,11 @@
 ---
-import { safeExternalUrl, site } from "../data/site";
-
+import { site } from "../data/site";
 const year = new Date().getFullYear();
-const links = [
-  { label: "GitHub", href: safeExternalUrl(site.socials.github) },
-  { label: "LinkedIn", href: safeExternalUrl(site.socials.linkedin) },
-  { label: "AI Services", href: safeExternalUrl(site.aiServicesUrl) },
-];
 ---
 
 <footer class="border-t border-line">
-  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-4 py-6 text-sm text-muted md:px-6">
-    <p>© {year} {site.name}.</p>
-    <div class="flex flex-wrap gap-x-5">
-      {links.map(({ label, href }) => href && <a href={href} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-accent">{label} ↗</a>)}
-    </div>
+  <div class="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-5 font-mono text-xs text-muted md:px-12">
+    <p>{site.initials}</p>
+    <p>© {year}</p>
   </div>
 </footer>

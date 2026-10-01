@@ -16,9 +16,9 @@ const links = [
     <div class="hero-grid">
       <div class="hero-copy">
         <h1 id="hero-heading" data-hero-reveal>AI &amp; Full-Stack<br class="hidden md:block" /> Engineer<span class="text-accent">.</span></h1>
-        <p class="hero-message" data-hero-reveal>I build practical AI systems and production software for real-world problems.</p>
+        <p class="hero-message" data-hero-reveal>I build practical AI assistants, full-stack applications, and useful tools.</p>
         <div class="mt-8 flex flex-wrap gap-3" data-hero-reveal>
-          <a href="#projects" class="motion-cta primary">Selected Work <span class="motion-arrow" aria-hidden="true">↘</span></a>
+          <a href="#projects" class="motion-cta primary">Projects <span class="motion-arrow" aria-hidden="true">↘</span></a>
           <a href="/resume" class="motion-cta">Resume <span class="motion-arrow" aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -33,17 +33,17 @@ const links = [
 </section>
 
 <style>
-  .hero-content { padding-top: 168px; padding-bottom: 16px; }
+  .hero-content { padding-top: 112px; padding-bottom: 16px; }
   .hero-byline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
   .hero-grid { display: grid; gap: 32px; margin-top: 40px; }
   h1 { max-width: 1050px; font-size: clamp(2.8rem, 12.5vw, 6.7rem); line-height: 1.04; letter-spacing: -.055em; }
   .hero-message { max-width: 530px; margin-top: 32px; font-size: clamp(1rem, 1.8vw, 1.25rem); color: var(--color-muted); }
-  .hero-portrait { position: relative; width: min(260px, 72%); aspect-ratio: 1; justify-self: start; }
+  .hero-portrait { position: relative; width: min(220px, 60%); aspect-ratio: 1; justify-self: start; }
   .hero-portrait::before { content: ""; position: absolute; inset: 12% 4% 0; border-radius: 50% 50% 0 0; background: radial-gradient(closest-side, var(--color-accent-soft), transparent); z-index: 0; }
   .hero-portrait img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; object-fit: contain; object-position: bottom; mask-image: linear-gradient(to bottom, black 78%, transparent); filter: grayscale(.25) contrast(1.03); }
   .hero-socials { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-top: 32px; }
   @media (min-width: 768px) {
-    .hero-content { padding-top: 196px; padding-bottom: 104px; }
+    .hero-content { padding-top: 176px; padding-bottom: 104px; }
     .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(220px, 300px); align-items: end; gap: 40px; margin-top: 56px; }
     h1 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); }
     .hero-portrait { width: 100%; justify-self: end; }

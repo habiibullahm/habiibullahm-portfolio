@@ -56,12 +56,21 @@ const projects = defineCollection({
       focusX: z.number().min(0).max(100).default(50),
       focusY: z.number().min(0).max(100).default(50),
       caption: z.string().optional(),
+      /** "contain" letterboxes phone screenshots instead of cropping them. */
+      fit: z.enum(["cover", "contain"]).default("cover"),
     }).optional(),
     outcome: z.string(),
     client: z.string(),
     domain: z.string(),
+    /** Product-type label shown on collection cards, e.g. "AI assistant". */
+    type: z.string(),
+    /** Filter membership; a project may belong to several categories. */
+    categories: z.array(z.enum(["ai", "web", "tools"])).min(1),
+    /** Up to three short capability labels for the collection card. */
+    capabilities: z.array(z.string()).min(1).max(3),
+    /** Global collection order (ascending). */
     order: z.number(),
-    /** featured = main Projects list; tool-helper = Tool Helper subsection */
+    /** Detail-page preview sizing only: ai = wide screenshots, tool-helper = phone screenshots. */
     section: z.enum(["ai", "featured", "tool-helper"]).default("featured"),
     stack: z.array(z.string()).min(1),
     /** Site-relative only (OWASP: no remote/scriptable image URLs). */

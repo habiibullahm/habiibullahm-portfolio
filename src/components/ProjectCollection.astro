@@ -1,0 +1,132 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { homeLimit, projectCategories } from "../data/projects";
+import { safeSitePath } from "../data/site";
+interface Props { projects: CollectionEntry<"projects">[]; limited?: boolean; headingTag?: "h2" | "h3"; }
+const { projects, limited = false, headingTag: Heading = "h3" } = Astro.props;
+const total = projects.length;
+const cards = projects.map(({ id, data }) => ({
+  id,
+  title: data.title,
+  type: data.type,
+  summary: data.summary ?? data.outcome,
+  capabilities: data.capabilities.join(" · "),
+  categories: data.categories.join(" "),
+  caption: data.showcase?.caption,
+  shot: data.showcase?.src ? safeSitePath(data.showcase.src) : null,
+  shotAlt: data.showcase?.alt ?? "",
+  fit: data.showcase?.fit ?? "cover",
+  x: data.showcase?.focusX ?? 50,
+  y: data.showcase?.focusY ?? 50,
+  logo: data.image ? safeSitePath(data.image) : null,
+  monogram: data.title.charAt(0),
+}));
+---
+
+<div data-project-collection-root class="collection">
+  <div class="filters" role="group" aria-label="Filter projects" data-project-filters hidden>
+    {projectCategories.map(({ id, label }) => <button type="button" class="filter" data-filter={id} aria-pressed={id === "all" ? "true" : "false"}>{label}</button>)}
+  </div>
+  <p class="sr-only" role="status" aria-live="polite" data-filter-status></p>
+  <ul data-project-collection data-filter="all" class:list={["project-list", { "is-limited": limited }]}>
+    {cards.map((card, index) => (
+      <li data-project-card data-categories={card.categories} class:list={["project-card", { "beyond-mobile": index >= homeLimit.mobile, "beyond-desktop": index >= homeLimit.desktop }]}>
+        {card.shot && <div class="card-media" data-fit={card.fit}>
+          <img src={card.shot} alt={card.shotAlt} width="1200" height="750" loading="lazy" decoding="async" style={`object-position: ${card.x}% ${card.y}%`} />
+        </div>}
+        {card.logo
+          ? <img class="card-logo" src={card.logo} alt="" width="48" height="48" loading="lazy" decoding="async" />
+          : <span class="card-logo monogram" aria-hidden="true">{card.monogram}</span>}
+        <div class="card-body">
+          <p class="card-type">{card.type}{card.caption && <span class="card-demo">{card.caption}</span>}</p>
+          <Heading class="card-title"><a class="card-link" href={`/projects/${card.id}`}>{card.title}</a></Heading>
+          <p class="card-summary">{card.summary}</p>
+          <p class="card-capabilities">{card.capabilities}</p>
+          <span class="card-cta" aria-hidden="true">View project <span class="motion-arrow">↗</span></span>
+        </div>
+      </li>
+    ))}
+  </ul>
+  {limited && <a href="/projects" class:list={["text-link", "view-all", { "hide-mobile": total <= homeLimit.mobile, "hide-desktop": total <= homeLimit.desktop }]}>View all projects ({total}) <span class="motion-arrow" aria-hidden="true">↗</span></a>}
+</div>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 28px; }
+  .filters[hidden] { display: none; }
+  .filter { min-height: 44px; padding: 0 16px; border: 1px solid transparent; border-radius: 2px; background: none; color: var(--color-muted); font: 12px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; transition: color 250ms ease, border-color 250ms ease; }
+  .filter:hover { color: var(--color-ink); }
+  .filter[aria-pressed="true"] { color: var(--color-ink); border-color: var(--color-line); }
+  .project-list { display: grid; border-top: 1px solid var(--color-line); }
+  .project-card { position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 0 16px; padding: 24px 0; border-bottom: 1px solid var(--color-line); }
+  .project-card[hidden] { display: none; }
+  .card-media { display: none; }
+  .card-logo { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: var(--color-surface); }
+  .monogram { display: grid; place-items: center; border: 1px solid var(--color-line); font: 500 18px var(--font-display); color: var(--color-ink); }
+  .card-body { min-width: 0; }
+  .card-type { display: flex; flex-wrap: wrap; gap: 2px 14px; font: 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--color-muted); }
+  .card-demo { color: var(--color-accent); }
+  .card-title { margin-top: 6px; font-size: 1.35rem; line-height: 1.2; overflow-wrap: anywhere; }
+  .card-link::after { content: ""; position: absolute; inset: 0; }
+  .card-link:focus-visible { outline: none; }
+  .project-card:has(.card-link:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 6px; }
+  .card-summary { margin-top: 10px; max-width: 520px; font-size: 14px; color: var(--color-muted); }
+  .card-capabilities { margin-top: 12px; font: 12px var(--font-mono); color: var(--color-muted); }
+  .card-cta { display: inline-block; margin-top: 14px; font-size: 14px; }
+  .view-all { margin-top: 24px; }
+  .view-all.hide-mobile { display: none; }
+  @media (max-width: 767px) {
+    .is-limited[data-filter="all"] .beyond-mobile { display: none; }
+  }
+  @media (min-width: 768px) {
+    .view-all.hide-mobile { display: inline-flex; }
+    .view-all.hide-desktop { display: none; }
+    .project-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 40px; border-top: 0; }
+    .project-card { display: block; padding: 0; border-bottom: 0; }
+    .card-logo { display: none; }
+    .card-media { display: block; aspect-ratio: 16 / 10; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--color-line); border-radius: 2px; background: var(--color-surface); }
+    .card-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms cubic-bezier(.22, 1, .36, 1); }
+    .card-media[data-fit="contain"] img { object-fit: contain; }
+    .card-title { font-size: clamp(1.5rem, 2.2vw, 1.9rem); }
+    .is-limited[data-filter="all"] .beyond-desktop { display: none; }
+  }
+  @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+    .project-card:hover .card-media img { transform: scale(1.02); }
+    .project-card:hover .card-link { color: var(--color-accent); }
+    .project-card:hover .card-cta .motion-arrow { transform: translateX(2px); }
+  }
+</style>
+
+<script>
+  let abort: AbortController | null = null;
+  function initProjectFilters() {
+    abort?.abort();
+    abort = new AbortController();
+    const { signal } = abort;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    document.querySelectorAll<HTMLElement>("[data-project-collection-root]").forEach(root => {
+      const list = root.querySelector<HTMLElement>("[data-project-collection]");
+      const filters = root.querySelector<HTMLElement>("[data-project-filters]");
+      const status = root.querySelector<HTMLElement>("[data-filter-status]");
+      if (!list || !filters) return;
+      const buttons = [...filters.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+      const cards = [...list.querySelectorAll<HTMLElement>("[data-project-card]")];
+      filters.hidden = false;
+      const apply = (filter: string, label: string) => {
+        list.dataset.filter = filter;
+        cards.forEach(card => { card.hidden = filter !== "all" && !(card.dataset.categories ?? "").split(" ").includes(filter); });
+        buttons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.filter === filter)));
+        if (status) {
+          const shown = cards.filter(card => getComputedStyle(card).display !== "none").length;
+          status.textContent = `Showing ${shown} ${filter === "all" ? "" : `${label} `}project${shown === 1 ? "" : "s"}`;
+        }
+        if (!reduce.matches) list.animate([{ opacity: 0.3 }, { opacity: 1 }], { duration: 200, easing: "ease-out" });
+      };
+      buttons.forEach(button => button.addEventListener("click", () => {
+        if (button.getAttribute("aria-pressed") === "true") return;
+        apply(button.dataset.filter ?? "all", button.textContent?.trim() ?? "");
+      }, { signal }));
+    });
+  }
+  document.addEventListener("astro:page-load", initProjectFilters);
+  document.addEventListener("astro:before-swap", () => abort?.abort());
+</script>

@@ -13,19 +13,20 @@ assert.match(homepage, /<meta name="twitter:card" content="summary_large_image"/
 assert.match(homepage, /<link rel="canonical" href="https:\/\/habiibullahm\.my\.id\//);
 assert.match(homepage, /Bidakara AI Assistant/);
 assert.match(homepage, /AGRES AI Sales Assistant/);
-for (const file of ["bidakara-showcase-desktop.webp", "bidakara-showcase-mobile.webp", "agres-ai-sales-assistant-preview.webp", "agres-showcase-mobile.webp", "task-management-showcase-desktop.webp", "task-management-showcase-mobile.webp"]) {
-  assert.ok(homepage.includes(`<img src="/images/projects/${file}"`), `${file}: homepage renders its showcase image`);
+for (const file of ["bidakara-card.webp", "agres-ai-sales-assistant-preview.webp", "task-management-card.webp", "podmark-card.webp", "trendplan-card.webp", "sahamku-card.webp"]) {
+  assert.ok(homepage.includes(`<img src="/images/projects/${file}"`), `${file}: homepage renders its card image`);
   assert.ok(existsSync(join("dist", "images", "projects", file)), `${file} is published`);
 }
+assert.ok(existsSync(join("dist", "projects", "index.html")), "Project archive /projects exists");
 assert.match(homepage, /<img src="\/images\/projects\/habib-profile-transparent\.webp" alt="Portrait of/, "Hero renders the transparent portrait");
 assert.equal(
   [...homepage.matchAll(/href="https:\/\/ai\.habiibullahm\.my\.id\//g)].length,
-  2,
-  "AI Services appears in the hero and footer",
+  1,
+  "AI Services appears in the hero",
 );
 assert.match(readPage("resume/index.html"), /Print \/ Save PDF/);
 
-for (const id of ["projects", "ai-projects", "experience", "about", "contact"]) {
+for (const id of ["projects", "experience", "about", "contact"]) {
   assert.ok(sections.has(id), `Homepage navigation target #${id} exists`);
 }
 

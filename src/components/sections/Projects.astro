@@ -1,18 +1,18 @@
 ---
-import { getCollection } from "astro:content";
-import ProjectIndex from "../ProjectIndex.astro";
-import { selectedProjectIds as selected } from "../../data/site";
-const projects = (await getCollection("projects"))
-  .filter(project => !project.data.draft && !selected.includes(project.id))
-  .sort((a, b) => Number(a.data.section === "tool-helper") - Number(b.data.section === "tool-helper") || a.data.order - b.data.order);
+import ProjectCollection from "../ProjectCollection.astro";
+import { getProjects } from "../../data/projects";
+const projects = await getProjects();
 ---
-<section id="engineering-projects" data-section class="section-anchor" aria-labelledby="engineering-heading">
+<section id="projects" data-section class="section-anchor" aria-labelledby="projects-heading">
+  <span id="ai-projects" class="section-anchor" aria-hidden="true"></span>
+  <span id="engineering-projects" class="section-anchor" aria-hidden="true"></span>
+  <span id="focus" class="section-anchor" aria-hidden="true"></span>
   <div class="portfolio-section">
     <div class="section-heading">
-      <span class="section-rule" data-line-reveal="engineering-line" aria-hidden="true"></span>
-      <p class="section-kicker">03 / Engineering &amp; tools</p>
-      <div data-reveal="engineering-heading"><h2 id="engineering-heading" class="section-title">More useful software.</h2><p class="mt-5 max-w-lg text-muted">Web applications and automation built around everyday tasks.</p></div>
+      <span class="section-rule" data-line-reveal="projects-line" aria-hidden="true"></span>
+      <p class="section-kicker">01 / Projects</p>
+      <div data-reveal="projects-heading"><h2 id="projects-heading" class="section-title">Projects</h2><p class="mt-5 max-w-lg text-muted">A collection of AI systems, web applications, and useful engineering tools.</p></div>
     </div>
-    <ProjectIndex projects={projects} supporting />
+    <ProjectCollection projects={projects} limited />
   </div>
 </section>

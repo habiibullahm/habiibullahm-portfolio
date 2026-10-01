@@ -69,8 +69,7 @@ const imagePreviews = previews.filter(
 );
 const otherPreviews = previews.filter((item) => item.type !== "image");
 
-const sectionLabel =
-  data.section === "tool-helper" ? "Tool Helper" : data.section === "ai" ? "Applied AI" : "Selected Work";
+const sectionLabel = data.type;
 const isPhonePreview = data.section === "tool-helper";
 const previewImgClass = isPhonePreview
   ? "mx-auto h-auto w-full max-w-[16rem] rounded-md border border-line sm:mx-0 sm:max-w-[18rem]"
@@ -84,7 +83,7 @@ const previewListClass =
     : "mt-6 space-y-6";
 
 const pageTitle = `${data.title} · ${site.name}`;
-const backHref = data.section === "ai" ? "/#ai-projects" : "/#projects";
+const backHref = "/#projects";
 ---
 
 <BaseLayout title={pageTitle} description={data.outcome}>

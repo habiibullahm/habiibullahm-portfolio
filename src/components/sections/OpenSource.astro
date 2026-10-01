@@ -5,9 +5,9 @@ import { contributions, safeExternalUrl } from "../../data/site";
   <div class="portfolio-section">
     <div class="section-heading">
       <span class="section-rule" data-line-reveal="opensource-line" aria-hidden="true"></span>
-      <p class="section-kicker">05 / Open Source</p>
+      <p class="section-kicker">03 / Open Source</p>
       <h2 id="opensource-heading" class="section-title" data-reveal="opensource-heading">Contributing beyond<br />my own projects.</h2>
     </div>
-    <ul>{contributions.map(item => <li class="index-row"><p class="text-sm text-muted">{item.org}</p><div><h3 class="text-2xl">{item.title}</h3><p class="mt-4 max-w-xl text-muted">{item.outcome}</p>{safeExternalUrl(item.href) && <a href={safeExternalUrl(item.href)} target="_blank" rel="noopener noreferrer" class="text-link mt-3 text-sm text-accent">View merged PR <span class="motion-arrow" aria-hidden="true">↗</span></a>}</div></li>)}</ul>
+    <ul>{contributions.map(item => <li class="index-row"><p class="text-sm text-muted">{item.org}</p><div><h3 class="text-2xl">{item.title}</h3><p class="mt-4 max-w-xl text-muted">{item.outcome}</p><div class="mt-3 flex flex-wrap gap-x-6 text-sm">{safeExternalUrl(item.href) && <a href={safeExternalUrl(item.href)} target="_blank" rel="noopener noreferrer" class="text-link text-accent">Merged PR <span class="motion-arrow" aria-hidden="true">↗</span></a>}{safeExternalUrl(item.repo) && <a href={safeExternalUrl(item.repo)} target="_blank" rel="noopener noreferrer" class="text-link text-muted">Repository <span class="motion-arrow" aria-hidden="true">↗</span></a>}</div></div></li>)}</ul>
   </div>
 </section>
