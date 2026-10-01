@@ -3,7 +3,7 @@ export const site = {
   initials: "MH",
   eyebrow: "AI & FULL-STACK ENGINEER · JAKARTA, INDONESIA",
   statement: "AI & Full-Stack Engineer",
-  tagline: "I build practical AI systems and production software for real-world problems.",
+  tagline: "I build AI tools and full-stack applications for real-world problems.",
   summary:
     "I build production-ready web applications and practical AI systems across frontend, backend, databases, RAG, LLM integrations, automation, and deployment.",
   technologies: "TypeScript · React · Node.js · PostgreSQL · Spring Boot · RAG · LLMs",
@@ -89,6 +89,7 @@ export const experience = [
     role: "Full-Stack Developer",
     company: "PT. Dans Multi Pro — Jakarta",
     years: "Apr 2024 – Present",
+    summary: "Building Java and Spring Boot services with React and React Native applications for telecommunications clients.",
     stack: [
       "Java",
       "Spring Boot",

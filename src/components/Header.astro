@@ -5,12 +5,12 @@ const onHome = Astro.url.pathname === "/";
 const homeHref = onHome ? "#home" : "/#home";
 ---
 
-<header id="site-header" class="fixed left-1/2 top-6 z-40 w-[calc(100%-2.5rem)] max-w-[300px] -translate-x-1/2 border border-line bg-surface shadow-lg backdrop-blur min-[810px]:top-10">
+<header id="site-header" class="fixed left-1/2 top-4 z-40 w-[calc(100%-2rem)] max-w-[360px] -translate-x-1/2 rounded-lg border border-line bg-surface md:top-6">
   <div class="relative flex min-h-16 items-center justify-between gap-3 px-4">
     <a href={homeHref} data-nav-home class="font-display text-sm font-semibold text-ink no-underline hover:text-accent" aria-label={`${site.name} — home`}>
       {site.name}
     </a>
-    <nav id="primary-nav" aria-label="Primary" class="absolute inset-x-0 top-[calc(100%+0.5rem)] hidden border border-line bg-surface p-3">
+    <nav id="primary-nav" aria-label="Primary" inert class="absolute inset-x-0 top-[calc(100%+0.5rem)] hidden rounded-lg border border-line bg-surface p-3">
       <ul class="flex flex-col gap-1">
         {nav.map((item) => (
           <li>
@@ -23,7 +23,7 @@ const homeHref = onHome ? "#home" : "/#home";
       </ul>
     </nav>
     <button type="button" id="nav-toggle" class="inline-flex size-11 shrink-0 items-center justify-center text-ink transition-opacity duration-300 hover:opacity-70" aria-controls="primary-nav" aria-expanded="false" aria-label="Open menu">
-      <svg id="nav-icon-open" class="size-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"></path></svg>
+      <svg id="nav-icon-open" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"></path></svg>
       <svg id="nav-icon-close" class="hidden size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"></path></svg>
     </button>
   </div>
@@ -41,14 +41,30 @@ const homeHref = onHome ? "#home" : "/#home";
     if (!toggle || !navigation || !iconOpen || !iconClose) return;
     abort = new AbortController();
     const { signal } = abort;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let open = false;
+    let animation: Animation | null = null;
+    const settle = () => {
+      animation?.cancel();
+      animation = null;
+      navigation.classList.toggle("hidden", !open);
+    };
 
-    const setOpen = (open: boolean) => {
+    const setOpen = (nextOpen: boolean) => {
+      if (nextOpen === open) return;
+      open = nextOpen;
+      animation?.cancel();
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      navigation.classList.toggle("hidden", !open);
+      navigation.inert = !open;
+      navigation.classList.remove("hidden");
       iconOpen.classList.toggle("hidden", open);
       iconClose.classList.toggle("hidden", !open);
       document.dispatchEvent(new CustomEvent("nav-menu-toggle", { detail: { open } }));
+      if (reduce.matches) { settle(); return; }
+      const frames = [{ opacity: 0, transform: "translateY(-6px)" }, { opacity: 1, transform: "none" }];
+      animation = navigation.animate(open ? frames : frames.reverse(), { duration: 180, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
+      animation.onfinish = () => { navigation.classList.toggle("hidden", !open); animation = null; };
     };
 
     toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"), { signal });
@@ -64,8 +80,12 @@ const homeHref = onHome ? "#home" : "/#home";
     document.addEventListener("click", (event) => {
       if (event.target instanceof Node && !navigation.contains(event.target) && !toggle.contains(event.target)) setOpen(false);
     }, { signal });
-    setOpen(false);
+    navigation.addEventListener("focusin", settle, { signal });
+    reduce.addEventListener("change", () => { if (reduce.matches) settle(); }, { signal });
+    window.addEventListener("beforeprint", () => { setOpen(false); settle(); }, { signal });
+    signal.addEventListener("abort", settle, { once: true });
   }
 
   document.addEventListener("astro:page-load", initHeaderNav);
+  document.addEventListener("astro:before-swap", () => abort?.abort());
 </script>

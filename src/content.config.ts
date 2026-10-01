@@ -45,6 +45,14 @@ const projects = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "./src/content/projects" }),
   schema: z.object({
     title: z.string(),
+    summary: z.string().min(1).optional(),
+    showcase: z.object({
+      src: rootRelativePath,
+      alt: z.string().min(1),
+      focusX: z.number().min(0).max(100).default(50),
+      focusY: z.number().min(0).max(100).default(50),
+      caption: z.string().optional(),
+    }).optional(),
     outcome: z.string(),
     client: z.string(),
     domain: z.string(),

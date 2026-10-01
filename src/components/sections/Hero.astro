@@ -1,42 +1,25 @@
 ---
 import { safeExternalUrl, site } from "../../data/site";
 const aiServices = safeExternalUrl(site.aiServicesUrl);
-const technologies = site.technologies.split(" · ");
-const toolkit = [technologies.slice(0, 2), technologies.slice(2, 5), technologies.slice(5)];
 ---
 
-<section id="home" data-section class="section-anchor px-2 min-[810px]:px-5">
-  <div class="hero-panel mx-auto max-w-[1400px] px-4 pb-8 pt-32 min-[810px]:px-5 min-[810px]:pt-36 min-[1200px]:px-8 min-[1200px]:pt-44">
-    <h1 class="hero-animate hero-animate-delay-1 text-center font-display text-[clamp(1.75rem,8.75vw,7rem)] font-bold leading-[1.08] tracking-[-0.055em]">
-      AI &amp; FULL-STACK<br />ENGINEER<span class="text-accent">.</span>
-    </h1>
-    <div class="mt-10 grid items-center gap-8 min-[810px]:grid-cols-[0.85fr_1.4fr_0.85fr] min-[810px]:gap-5 min-[1200px]:gap-8">
-      <div class="hero-animate hero-animate-delay-2 text-center lg:text-left">
-        <p class="mx-auto max-w-sm text-lg font-medium leading-relaxed text-ink lg:mx-0">{site.tagline}</p>
-        <div class="mt-5 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-          <a href="#ai-projects" class="inline-flex min-h-12 items-center gap-4 rounded-sm bg-accent px-5 py-3 text-sm font-semibold text-mist no-underline transition-colors hover:bg-ink">View Selected Work <span aria-hidden="true">↓</span></a>
-          <a href="/resume" class="inline-flex min-h-12 items-center rounded-sm border border-line px-5 py-3 text-sm text-ink no-underline hover:border-accent">Resume</a>
-        </div>
-        <div class="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-muted lg:justify-start">
-          <a href={site.socials.github} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-accent">GitHub ↗</a>
-          <a href={site.socials.linkedin} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-accent">LinkedIn ↗</a>
-          {aiServices && <a href={aiServices} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-accent">AI Services ↗</a>}
-        </div>
+<section id="home" data-section class="section-anchor" aria-labelledby="hero-heading">
+  <div class="portfolio-section hero-content grid items-center gap-10 md:grid-cols-[1fr_280px] md:gap-16">
+    <div>
+      <p class="text-sm text-muted">Habib · Jakarta, Indonesia</p>
+      <h1 id="hero-heading" class="mt-4 max-w-2xl text-[clamp(2.5rem,5vw,4rem)] leading-[1.12]">AI &amp; Full-Stack Engineer<span class="text-accent">.</span></h1>
+      <p class="mt-5 max-w-lg text-lg text-muted">{site.tagline}</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href="#ai-projects" class="motion-cta inline-flex min-h-11 items-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-mist hover:bg-ink">View projects <span class="ml-2 motion-arrow motion-arrow-down" aria-hidden="true">↓</span></a>
+        <a href="/resume" class="motion-cta inline-flex min-h-11 items-center rounded-lg border border-line px-5 py-3 text-sm hover:border-accent">Resume</a>
       </div>
-      <figure class="hero-animate hero-animate-delay-2 mx-auto w-full max-w-sm min-[810px]:max-w-none">
-        <img src="/images/habib-profile.webp" alt="Muhammad Habiibullah" width="480" height="480" fetchpriority="high" class="aspect-square w-full border border-line object-cover" />
-        <figcaption class="mt-4 border border-line bg-mist px-3 py-4 text-center text-sm text-muted"><strong class="block text-[clamp(1.2rem,2.5vw,1.85rem)] font-semibold leading-tight tracking-tight text-ink">Muhammad Habiibullah</strong><span class="mt-3 block">Full-Stack Developer · PT. Dans Multi Pro</span></figcaption>
-      </figure>
-      <div class="hero-animate hero-animate-delay-3 hidden w-full min-[810px]:block">
-        <p class="mb-3 text-center font-mono text-[10px] tracking-widest text-muted">CURRENT TOOLKIT</p>
-        <ul class="grid gap-3">
-          {toolkit.map((group) => <li class="flex min-h-16 items-center justify-center border border-line bg-ink/10 px-4 py-3 text-center text-sm text-ink">{group.join(" · ")}</li>)}
-        </ul>
-      </div>
+      {aiServices && <a href={aiServices} target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex min-h-11 items-center text-sm text-muted hover:text-accent">AI Services ↗</a>}
     </div>
+    <img src="/images/habib-profile.webp" alt="Muhammad Habiibullah" width="480" height="480" fetchpriority="high" class="aspect-square w-full max-w-[280px] rounded-lg border border-line object-cover" />
   </div>
 </section>
 
-<script>
-  import "../../scripts/hero-replay.ts";
-</script>
+<style>
+  .hero-content { padding-top: 144px; padding-bottom: 64px; }
+  @media (min-width: 768px) { .hero-content { padding-top: 176px; padding-bottom: 80px; } }
+</style>

@@ -1,29 +1,26 @@
 ---
-import { education, site } from "../../data/site";
+import { contributions, education, safeExternalUrl } from "../../data/site";
 ---
 
-<section id="about" data-section class="section-anchor border-b border-line">
-  <div class="portfolio-section" data-reveal>
-    <p class="font-mono text-[11px] tracking-widest text-accent">05 / ABOUT</p>
-    <h2 class="mt-3 max-w-3xl text-3xl md:text-4xl">{site.about.lead}</h2>
-
-    <div class="mt-8 max-w-3xl space-y-5 text-muted">
-      {site.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+<section id="about" data-section class="section-anchor border-b border-line" aria-labelledby="about-heading">
+  <div class="portfolio-section">
+    <h2 id="about-heading" class="text-3xl md:text-4xl">About</h2>
+    <div class="mt-5 max-w-2xl space-y-4 text-muted">
+      <p>I'm Habib, a Jakarta-based engineer at PT. Dans Multi Pro. I build enterprise applications and explore practical uses of AI.</p>
+      <p>I enjoy turning real needs into useful software, from the interface and APIs to data and deployment.</p>
     </div>
-
-    <p class="mt-14 font-mono text-xs tracking-widest text-muted">EDUCATION</p>
-    <ul class="mt-6 space-y-8">
-      {
-        education.map((item) => (
-          <li class="grid gap-2 border-t border-line pt-6 md:grid-cols-[1fr_auto]">
-            <div>
-              <h3 class="text-xl md:text-2xl">{item.title}</h3>
-              <p class="mt-2 text-muted">{item.org}</p>
-            </div>
-            <p class="font-mono text-xs text-muted md:text-right">{item.label}</p>
-          </li>
-        ))
-      }
-    </ul>
+    <dl class="mt-8 max-w-2xl space-y-5 border-t border-line pt-6 text-sm">
+      <div>
+        <dt class="font-semibold">Education</dt>
+        {education.map((item) => <dd class="mt-1 text-muted">{item.title}<br />{item.org}</dd>)}
+      </div>
+      <div id="contributions" class="section-anchor" data-section>
+        <dt class="font-semibold">Open source</dt>
+        {contributions.map((item) => {
+          const href = safeExternalUrl(item.href);
+          return <dd class="mt-1 text-muted">{item.title} · Pipedream{href && <a href={href} target="_blank" rel="noopener noreferrer" class="ml-3 inline-flex min-h-11 items-center text-accent hover:underline">View merged PR ↗</a>}</dd>;
+        })}
+      </div>
+    </dl>
   </div>
 </section>

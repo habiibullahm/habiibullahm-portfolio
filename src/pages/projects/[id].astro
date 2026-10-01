@@ -84,18 +84,19 @@ const previewListClass =
     : "mt-6 space-y-6";
 
 const pageTitle = `${data.title} · ${site.name}`;
+const backHref = data.section === "ai" ? "/#ai-projects" : "/#projects";
 ---
 
 <BaseLayout title={pageTitle} description={data.outcome}>
   <header class="sticky top-0 z-40 border-b border-line bg-mist">
     <div class="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-5 md:px-6">
       <a href="/#home" class="font-display text-sm font-semibold text-ink no-underline hover:text-accent">{site.name}</a>
-      <a href="/#ai-projects" class="inline-flex min-h-11 items-center font-body text-sm text-muted no-underline hover:text-accent">← Selected work</a>
+      <a href={backHref} class="inline-flex min-h-11 items-center text-sm text-muted no-underline hover:text-accent">← Projects</a>
     </div>
   </header>
 
   <main id="main" class="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-20">
-    <p class="font-mono text-[11px] tracking-widest text-accent">CASE STUDY / {sectionLabel.toUpperCase()}</p>
+    <p class="text-sm text-muted">{sectionLabel}</p>
     <div class="mt-5 flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
       {
         imageSrc && (
@@ -113,7 +114,7 @@ const pageTitle = `${data.title} · ${site.name}`;
         )
       }
       <div class="min-w-0 flex-1">
-        <h1 class="font-display text-4xl font-semibold leading-tight tracking-tight sm:text-5xl md:text-6xl">{data.title}</h1>
+        <h1 class="text-3xl leading-tight sm:text-4xl md:text-5xl">{data.title}</h1>
         <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{data.outcome}</p>
         <dl class="mt-8 grid max-w-2xl gap-4 border-y border-line py-5 sm:grid-cols-2">
           <div><dt class="font-mono text-[10px] tracking-widest text-muted">TYPE</dt><dd class="mt-1 text-sm text-ink">{data.client} · {data.domain}</dd></div>
@@ -126,9 +127,9 @@ const pageTitle = `${data.title} · ${site.name}`;
                 href={live}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-accent no-underline hover:underline"
+                class="inline-flex min-h-11 items-center text-accent no-underline hover:underline"
               >
-                Live
+                Live demo ↗
               </a>
             )
           }
@@ -138,9 +139,9 @@ const pageTitle = `${data.title} · ${site.name}`;
                 href={repo}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-accent no-underline hover:underline"
+                class="inline-flex min-h-11 items-center text-accent no-underline hover:underline"
               >
-                Code
+                Code ↗
               </a>
             )
           }
@@ -181,7 +182,7 @@ const pageTitle = `${data.title} · ${site.name}`;
             {otherPreviews.map((item) =>
               item.type === "embed" ? (
                 <li class="max-w-3xl">
-            <div class="overflow-hidden rounded-sm border border-line bg-surface">
+                  <div class="overflow-hidden rounded-lg border border-line bg-surface">
                     <div class="relative aspect-[16/10] w-full bg-ink/5">
                       <iframe
                         src={item.src}
@@ -396,8 +397,8 @@ const pageTitle = `${data.title} · ${site.name}`;
         {site.name}
       </a>
       <a
-        href="/#projects"
-        class="font-display text-sm text-accent no-underline hover:underline"
+        href={backHref}
+        class="inline-flex min-h-11 items-center text-sm text-accent no-underline hover:underline"
       >
         Back to projects
       </a>

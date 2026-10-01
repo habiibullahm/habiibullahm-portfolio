@@ -6,53 +6,30 @@
   --font-display: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-
   --color-mist: #080809;
   --color-ink: #f3f2f5;
   --color-muted: #b3b0bc;
   --color-line: #34323c;
   --color-accent: #a29bff;
   --color-accent-soft: #24202e;
-  --color-surface: #242430;
+  --color-surface: #141419;
 }
 
 @layer components {
   .portfolio-section {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1152px;
     margin-inline: auto;
-    padding-inline: 16px;
-    padding-block: 64px;
+    padding: 64px 16px;
   }
-
-  [data-reveal] {
-    transition:
-      opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  @media (min-width: 768px) {
+    .portfolio-section { padding: 88px 24px; }
   }
-
-  [data-reveal].reveal-pending {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-
-  [data-reveal]:focus-within {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (min-width: 810px) {
-  .portfolio-section {
-    padding-inline: 24px;
-    padding-block: 96px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .portfolio-section {
-    padding-inline: 40px;
-    padding-block: 120px;
+  .motion-cta { transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease; }
+  .motion-arrow { display: inline-block; transition: transform 180ms ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .motion-cta:hover { transform: translateY(-2px); }
+    a:hover .motion-arrow { transform: translateX(2px); }
   }
 }
 
@@ -61,128 +38,25 @@
     scroll-behavior: auto;
     color-scheme: dark;
   }
-
   body {
     @apply bg-mist text-ink font-body antialiased;
     line-height: 1.7;
   }
-
-  h1,
-  h2,
-  h3 {
-    @apply font-display font-semibold tracking-tight;
-  }
-
-  :focus-visible {
-    @apply outline-2 outline-offset-2 outline-accent;
-  }
-
-  ::selection {
-    background: #c1a6ff;
-    color: #111114;
-  }
+  h1, h2, h3 { @apply font-display font-semibold tracking-tight; }
+  button:not(:disabled) { cursor: pointer; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
+  ::selection { background: #a29bff; color: #080809; }
 }
 
 @layer utilities {
-  .portfolio-surface,
-  .hero-panel::before {
-    background: radial-gradient(ellipse at 10% 15%, #353442 0, transparent 55%),
-      radial-gradient(ellipse at 90% 80%, #343344 0, transparent 50%), #22222e;
-  }
-
-  .hero-panel {
-    position: relative;
-    isolation: isolate;
-  }
-
-  #primary-nav:not(.hidden) {
-    animation: menu-enter 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
-  .hero-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border: 1px solid var(--color-line);
-  }
-
-  @media (min-width: 1024px) {
-    .hero-panel::before {
-      bottom: 8rem;
-    }
-  }
-
-  .section-anchor {
-    scroll-margin-top: 6rem;
-  }
-
-  html.await-hash:not(.hash-ready) body {
-    visibility: hidden;
-  }
-
-  @keyframes hero-rise {
-    from {
-      opacity: 0;
-      transform: translateY(0.75rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .hero-animate {
-    animation: hero-rise 0.7s ease-out both;
-  }
-
-  @keyframes menu-enter {
-    from {
-      opacity: 0;
-      transform: translateY(-0.5rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .hero-animate-delay-1 {
-    animation-delay: 0.12s;
-  }
-
-  .hero-animate-delay-2 {
-    animation-delay: 0.24s;
-  }
-
-  .hero-animate-delay-3 {
-    animation-delay: 0.36s;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation: none !important;
-      transition-duration: 0s !important;
-    }
-
-    .hero-animate {
-      animation: none;
-      opacity: 1;
-      transform: none;
-    }
-
-    [data-reveal].reveal-pending {
-      opacity: 1;
-      transform: none;
-    }
-  }
+  .section-anchor { scroll-margin-top: 6rem; }
+  html.await-hash:not(.hash-ready) body { visibility: hidden; }
 }
 
-@media print {
-  [data-reveal].reveal-pending {
-    opacity: 1;
-    transform: none;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0s !important;
   }
+  .motion-cta:hover, a:hover .motion-arrow { transform: none; }
 }
