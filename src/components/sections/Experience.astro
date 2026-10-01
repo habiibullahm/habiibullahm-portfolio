@@ -1,25 +1,13 @@
 ---
 import { experience } from "../../data/site";
 ---
-
-<section id="experience" data-section class="section-anchor border-b border-line">
+<section id="experience" data-section class="section-anchor" aria-labelledby="experience-heading">
   <div class="portfolio-section">
-    <h2 class="text-3xl md:text-4xl">Experience</h2>
-    <ul class="mt-8 space-y-8">
-      {
-        experience.map((item) => (
-          <li class="grid gap-2 border-t border-line pt-6 md:grid-cols-[1fr_auto]">
-            <div>
-              <h3 class="text-xl md:text-2xl">
-                {item.role}
-                <span class="text-muted"> · {item.company}</span>
-              </h3>
-              <p class="mt-3 max-w-2xl text-muted">{item.summary}</p>
-            </div>
-            <p class="font-mono text-xs text-muted md:text-right">{item.years}</p>
-          </li>
-        ))
-      }
-    </ul>
+    <div class="section-heading">
+      <span class="section-rule" data-line-reveal="experience-line" aria-hidden="true"></span>
+      <p class="section-kicker">02 / Experience</p>
+      <h2 id="experience-heading" class="section-title" data-reveal="experience-heading">Building in production.</h2>
+    </div>
+    <ul>{experience.map((item, index) => <li class="index-row" data-reveal={`experience-${index}`}><p class="font-mono text-xs text-muted">{item.years}</p><div><h3 class="text-2xl md:text-3xl">{item.role}</h3><p class="mt-2 text-accent">{item.company}</p><p class="mt-5 max-w-2xl text-muted">{item.summary}</p><p class="mt-5 font-mono text-xs text-muted">{item.stack.join(" · ")}</p></div></li>)}</ul>
   </div>
 </section>

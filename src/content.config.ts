@@ -48,18 +48,35 @@ const projects = defineCollection({
     summary: z.string().min(1).optional(),
     showcase: z.object({
       src: rootRelativePath,
+      /** Optional capture (phone screenshot or tight crop) shown inline on narrow screens. */
+      mobileSrc: rootRelativePath.optional(),
+      /** Intrinsic [width, height] of mobileSrc, to reserve layout space. */
+      mobileSize: z.tuple([z.number().int().positive(), z.number().int().positive()]).optional(),
       alt: z.string().min(1),
       focusX: z.number().min(0).max(100).default(50),
       focusY: z.number().min(0).max(100).default(50),
       caption: z.string().optional(),
+      /** "contain" letterboxes phone screenshots instead of cropping them. */
+      fit: z.enum(["cover", "contain"]).default("cover"),
     }).optional(),
     outcome: z.string(),
     client: z.string(),
     domain: z.string(),
+    /** Product-type label shown on collection cards, e.g. "AI assistant". */
+    type: z.string(),
+    /** Exactly one primary category (its main product form); capabilities carry the secondary tech/AI tags. */
+    category: z.enum(["ai", "web", "tools"]),
+    /** Up to three short capability labels for the collection card. */
+    capabilities: z.array(z.string()).min(1).max(3),
+    /** Year the project was built; optional until it is established from real project information. */
+    year: z.number().int().min(2000).max(2100).optional(),
+    /** Global collection order (ascending). */
     order: z.number(),
-    /** featured = main Projects list; tool-helper = Tool Helper subsection */
+    /** Detail-page preview sizing only: ai = wide screenshots, tool-helper = phone screenshots. */
     section: z.enum(["ai", "featured", "tool-helper"]).default("featured"),
     stack: z.array(z.string()).min(1),
+    /** Optional collection mark that overrides `image` where the logo needs a tighter crop or is the app icon. */
+    mark: rootRelativePath.optional(),
     /** Site-relative only (OWASP: no remote/scriptable image URLs). */
     image: rootRelativePath.optional(),
     imageAlt: z.string().default(""),

@@ -13,17 +13,23 @@ assert.match(homepage, /<meta name="twitter:card" content="summary_large_image"/
 assert.match(homepage, /<link rel="canonical" href="https:\/\/habiibullahm\.my\.id\//);
 assert.match(homepage, /Bidakara AI Assistant/);
 assert.match(homepage, /AGRES AI Sales Assistant/);
-for (const slug of ["bidakara-ai-assistant", "agres-ai-sales-assistant"]) {
-  assert.match(homepage, new RegExp(`<img[^>]+src="/images/projects/${slug}-preview\\.webp"`), `${slug}: homepage renders its project preview`);
+for (const file of ["bidakara-app-icon.svg", "task-management-logo.webp", "podmark.svg", "trendplan-mark.webp", "sahamku-logo.webp"]) {
+  assert.ok(homepage.includes(`<img class="card-mark" src="/images/projects/${file}"`), `${file}: homepage collection renders its mark`);
+  assert.ok(existsSync(join("dist", "images", "projects", file)), `${file} is published`);
 }
+for (const file of ["bidakara-card.webp", "agres-ai-sales-assistant-preview.webp", "task-management-card.webp", "podmark-card.webp", "trendplan-card.webp", "sahamku-card.webp", "cv-screener-preview-thumb.webp", "jobmatch-helper-preview-thumb.webp"]) {
+  assert.ok(!homepage.includes(`/images/projects/${file}`), `${file}: screenshots stay on detail pages, not the collection`);
+}
+assert.ok(existsSync(join("dist", "projects", "index.html")), "Project archive /projects exists");
+assert.match(homepage, /<img src="\/images\/projects\/habib-profile-transparent\.webp" alt="Portrait of/, "Hero renders the transparent portrait");
 assert.equal(
   [...homepage.matchAll(/href="https:\/\/ai\.habiibullahm\.my\.id\//g)].length,
-  2,
-  "AI Services appears in the hero and footer",
+  1,
+  "AI Services appears in the hero",
 );
 assert.match(readPage("resume/index.html"), /Print \/ Save PDF/);
 
-for (const id of ["projects", "ai-projects", "experience", "about", "contact"]) {
+for (const id of ["projects", "experience", "about", "contact"]) {
   assert.ok(sections.has(id), `Homepage navigation target #${id} exists`);
 }
 

@@ -69,8 +69,7 @@ const imagePreviews = previews.filter(
 );
 const otherPreviews = previews.filter((item) => item.type !== "image");
 
-const sectionLabel =
-  data.section === "tool-helper" ? "Tool Helper" : data.section === "ai" ? "Applied AI" : "Selected Work";
+const sectionLabel = data.type;
 const isPhonePreview = data.section === "tool-helper";
 const previewImgClass = isPhonePreview
   ? "mx-auto h-auto w-full max-w-[16rem] rounded-md border border-line sm:mx-0 sm:max-w-[18rem]"
@@ -84,7 +83,7 @@ const previewListClass =
     : "mt-6 space-y-6";
 
 const pageTitle = `${data.title} · ${site.name}`;
-const backHref = data.section === "ai" ? "/#ai-projects" : "/#projects";
+const backHref = "/#projects";
 ---
 
 <BaseLayout title={pageTitle} description={data.outcome}>
@@ -95,12 +94,13 @@ const backHref = data.section === "ai" ? "/#ai-projects" : "/#projects";
     </div>
   </header>
 
-  <main id="main" class="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-20">
+  <main id="main" class="project-detail mx-auto max-w-6xl px-5 py-12 md:px-12 md:py-20">
     <p class="text-sm text-muted">{sectionLabel}</p>
+    {data.showcase?.caption && <p class="mt-3 text-sm text-accent">{data.showcase.caption}</p>}
     <div class="mt-5 flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
       {
         imageSrc && (
-          <div class="size-28 shrink-0 overflow-hidden rounded-md border border-line bg-mist sm:size-32">
+          <div class="size-16 shrink-0 overflow-hidden rounded-md border border-line bg-mist sm:size-20">
             <img
               src={imageSrc}
               alt={data.imageAlt}
@@ -384,6 +384,7 @@ const backHref = data.section === "ai" ? "/#ai-projects" : "/#projects";
     }
 
     document.addEventListener("astro:page-load", initProjectDetailInteractions);
+    document.addEventListener("astro:before-swap", () => abort?.abort());
   </script>
 
   <footer class="border-t border-line">

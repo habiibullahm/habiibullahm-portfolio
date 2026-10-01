@@ -2,14 +2,17 @@
 title: "Sahamku"
 summary: "Get IDX market reports, stock signals, and indicator-based answers on Telegram."
 showcase:
-  src: "/images/projects/sahamku-scan-preview.png"
+  src: "/images/projects/sahamku-card.webp"
   alt: "Sahamku market overview and indicator report in Telegram"
   focusX: 35
   focusY: 30
 outcome: "Telegram bot for IDX stock signals with a grounded LLM /ask feature and automated market reports."
 client: "Personal / Portfolio"
 domain: "Fintech / AI"
-order: 0
+type: "Telegram bot"
+category: "tools"
+capabilities: ["Technical signals", "Grounded answers", "Market reports"]
+order: 6
 section: "tool-helper"
 stack:
   - "Python"
@@ -18,7 +21,7 @@ stack:
   - "Groq"
   - "SQLite"
   - "Docker"
-image: "/images/projects/sahamku.png"
+image: "/images/projects/sahamku-logo.webp"
 imageAlt: "Sahamku bot logo"
 what: "A Telegram bot (@sahamku_id_bot) for IDX traders: automated pre-market and after-market reports, rule-based technical signals (golden/death cross, RSI, breakout, MACD, Bollinger squeeze), a query-DSL screener, sector rollups, price/RSI alerts, and a conversational /ask command that answers stock questions grounded in that day's live indicators, signals, and news."
 why: "Retail traders drown in indicators with no context. Rule-based signals give transparent, explainable triggers instead of a black box, and /ask lets someone ask a plain question and get an answer grounded in real data — the model's system prompt instructs it to use only the numbers provided and never issue buy/sell orders (a prompt-level constraint, not a guaranteed output filter)."

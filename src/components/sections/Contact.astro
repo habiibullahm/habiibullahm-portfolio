@@ -1,17 +1,21 @@
 ---
 import { safeExternalUrl, site } from "../../data/site";
-
-const mailto = safeExternalUrl(`mailto:${site.email}`);
-const linkedin = safeExternalUrl(site.socials.linkedin);
+const links = [
+  {label: "Email", href: safeExternalUrl(`mailto:${site.email}`)},
+  {label: "LinkedIn", href: safeExternalUrl(site.socials.linkedin)},
+  {label: "GitHub", href: safeExternalUrl(site.socials.github)},
+];
 ---
-
 <section id="contact" data-section class="section-anchor" aria-labelledby="contact-heading">
-  <div class="portfolio-section">
-    <h2 id="contact-heading" class="text-3xl md:text-4xl">Have a project in mind?</h2>
-    <p class="mt-3 text-muted">Let’s talk about AI and full-stack development.</p>
-    <div class="mt-7 flex flex-wrap items-center gap-3">
-      {mailto && <a href={mailto} class="motion-cta inline-flex min-h-11 items-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-mist hover:bg-ink">Email me ↗</a>}
-      {linkedin && <a href={linkedin} target="_blank" rel="noopener noreferrer" class="motion-cta inline-flex min-h-11 items-center rounded-lg border border-line px-5 py-3 text-sm hover:border-accent">LinkedIn ↗</a>}
-    </div>
+  <div class="portfolio-section contact-content">
+    <span class="section-rule mb-10" data-line-reveal="contact-line" aria-hidden="true"></span>
+    <p class="section-kicker">05 / Contact</p>
+    <h2 id="contact-heading" data-reveal="contact-heading">Have a problem<br />worth solving<span class="text-accent">?</span></h2>
+    <div class="mt-10 grid gap-6 md:grid-cols-2 md:items-end"><p class="max-w-lg text-muted">{site.contactBlurb}</p><div class="flex flex-wrap gap-x-8 md:justify-end">{links.map(({label, href}) => href && <a href={href} target={label === "Email" ? undefined : "_blank"} rel={label === "Email" ? undefined : "noopener noreferrer"} class="text-link">{label}<span class="motion-arrow" aria-hidden="true">↗</span></a>)}</div></div>
   </div>
 </section>
+<style>
+  h2 { margin-top: 28px; font-size: clamp(2.7rem, 6.5vw, 5.5rem); line-height: 1.06; }
+  .contact-content { padding-bottom: 120px; }
+  @media (min-width: 768px) { .contact-content { padding-top: 144px; padding-bottom: 144px; } }
+</style>

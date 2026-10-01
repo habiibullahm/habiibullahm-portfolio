@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <defs><mask id="cross-cutout" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="white"/><path d="M29 22h6v8h8v6h-8v8h-6v-8h-8v-6h8z" fill="black"/></mask></defs>
+  <rect x="1" y="1" width="62" height="62" rx="18" fill="#153E40"/>
+  <g transform="translate(4.5 4.5) scale(.86)"><path d="M20.5 8h22C51.06 8 58 14.94 58 23.5v15C58 47.06 51.06 54 42.5 54H27L14 62v-9.5C8.2 50.2 5 45.2 5 38.5v-15C5 14.94 11.94 8 20.5 8Z" fill="url(#glow)" mask="url(#cross-cutout)"/><path d="M49 3.5c1.2 4.2 2.3 5.3 6.5 6.5-4.2 1.2-5.3 2.3-6.5 6.5-1.2-4.2-2.3-5.3-6.5-6.5 4.2-1.2 5.3-2.3 6.5-6.5Z" fill="#C0FFF5"/></g>
+  <defs><linearGradient id="glow" x1="7" y1="8" x2="58" y2="58" gradientUnits="userSpaceOnUse"><stop stop-color="#58D9CB"/><stop offset="1" stop-color="#49AEDA"/></linearGradient></defs>
+</svg>

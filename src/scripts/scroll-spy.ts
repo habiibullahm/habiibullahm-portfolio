@@ -3,9 +3,8 @@ import { syncAllNavLinks } from "./nav-active";
 /** Section ids observed for scroll-spy (aligned with primary nav). */
 const sections = [
   "home",
-  "ai-projects",
-  "contributions",
   "projects",
+  "contributions",
   "about",
   "experience",
   "contact",
@@ -130,6 +129,7 @@ export function initScrollSpy(): void {
     link.addEventListener(
       "click",
       (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         const id = link.dataset.navLink;
         if (!id || !isSectionId(id)) return;
 

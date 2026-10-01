@@ -2,14 +2,18 @@
 title: "CV Screener"
 summary: "Compare CVs with a job description and see candidate rankings."
 showcase:
-  src: "/images/projects/cv-screener-ranking-preview.webp"
+  src: "/images/projects/cv-screener-preview-thumb.webp"
+  fit: "contain"
   alt: "CV Screener screening results and candidate rankings"
   focusX: 50
   focusY: 75
 outcome: "Telegram bot that screens PDF CVs against a job description and ranks candidates in-session."
 client: "Personal / Portfolio"
 domain: "Hiring Tools"
-order: 1
+type: "Telegram bot"
+category: "tools"
+capabilities: ["PDF parsing", "Keyword matching", "Candidate ranking"]
+order: 7
 section: "tool-helper"
 stack:
   - "TypeScript"
@@ -17,7 +21,7 @@ stack:
   - "pdf-parse"
   - "Node"
   - "Docker"
-image: "/images/projects/cv-screener.png"
+image: "/images/projects/cv-screener-logo.webp"
 imageAlt: "CV Screener bot logo"
 what: "A Telegram bot for hiring managers. Paste a job description or share a public career-page link, upload candidate PDFs, and get a match score with matched and missing keywords. Keep one JD sticky in the session to screen and rank more CVs without starting over."
 why: "First-pass screening is slow when done by eye. Keyword matching is fast and explainable, without sending CVs to an AI API. Recruiters already work in Telegram — the bot meets them there."
