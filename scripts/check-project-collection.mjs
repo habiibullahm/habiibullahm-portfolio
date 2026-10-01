@@ -4,6 +4,7 @@ import { readFileSync, readdirSync } from "node:fs";
 const homepage = readFileSync("dist/index.html", "utf8");
 const archive = readFileSync("dist/projects/index.html", "utf8");
 const expected = [
+  ["nibie", "ai"],
   ["bidakara-ai-assistant", "ai"],
   ["agres-ai-sales-assistant", "ai"],
   ["task-management", "web"],

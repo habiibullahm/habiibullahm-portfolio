@@ -13,7 +13,7 @@ assert.match(homepage, /<meta name="twitter:card" content="summary_large_image"/
 assert.match(homepage, /<link rel="canonical" href="https:\/\/habiibullahm\.my\.id\//);
 assert.match(homepage, /Bidakara AI Assistant/);
 assert.match(homepage, /AGRES AI Sales Assistant/);
-for (const file of ["bidakara-app-icon.svg", "task-management-logo.webp", "podmark.svg", "trendplan-mark.webp", "sahamku-logo.webp"]) {
+for (const file of ["nibie-mark.svg", "bidakara-app-icon.svg", "task-management-logo.webp", "podmark.svg", "trendplan-mark.webp", "sahamku-logo.webp"]) {
   assert.ok(homepage.includes(`<img class="card-mark" src="/images/projects/${file}"`), `${file}: homepage collection renders its mark`);
   assert.ok(existsSync(join("dist", "images", "projects", file)), `${file} is published`);
 }
@@ -36,6 +36,7 @@ for (const id of ["projects", "experience", "about", "contact"]) {
 for (const slug of [
   "agres-ai-sales-assistant",
   "bidakara-ai-assistant",
+  "nibie",
   "cv-screener",
   "jobmatch-helper",
   "podmark",
@@ -77,4 +78,4 @@ for (const path of pages) {
   }
 }
 
-console.log(`Portfolio checks passed: SEO, navigation, resume, 8 project pages, and local links/assets across ${pages.length} pages.`);
+console.log(`Portfolio checks passed: SEO, navigation, resume, 9 project pages, and local links/assets across ${pages.length} pages.`);
