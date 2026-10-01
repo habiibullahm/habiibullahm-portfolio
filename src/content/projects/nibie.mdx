@@ -6,9 +6,9 @@ client: "Personal / Portfolio"
 domain: "Applied AI · Chat"
 type: "AI Workspace"
 category: "ai"
-mark: "/images/projects/nibie-mark.svg"
-image: "/images/projects/nibie-mark.svg"
-imageAlt: "Nibie mark"
+mark: "/images/projects/nibie-mark.png"
+image: "/images/projects/nibie-mark.png"
+imageAlt: "Nibie logo"
 capabilities: ["Streaming Chat", "Conversation History", "Model Selection"]
 order: 1
 section: "ai"
@@ -21,6 +21,10 @@ stack:
   - "PostgreSQL"
   - "Drizzle"
   - "Vercel"
+previews:
+  - type: "image"
+    src: "/images/projects/nibie-welcome-preview.png"
+    alt: "Nibie welcome screen with suggested prompts and the Balanced response mode"
 what: "Nibie is an AI chat workspace for ongoing conversations. A signed-in user opens a chat, chooses a response mode for that conversation, and reads a streamed reply. Conversations stay in a history list and can be reopened, renamed, or deleted."
 why: "A useful chat is one you can come back to. Nibie keeps each conversation, its selected response mode, and the message thread on the account that owns it, instead of leaving them in a single disposable session."
 how: "Next.js on Vercel. Sign-in uses Supabase Auth with server-managed cookies. Conversations and messages are stored in PostgreSQL, with Drizzle migrations and owner-scoped row-level security so a user only reads their own rows. The chat API checks the session, loads the conversation's saved mode (Fast, Balanced, or Reasoning), and streams the reply from a server-side OpenAI-compatible provider. The client can stop a stream, edit the last user message, and regenerate or retry. Replies render as Markdown, including fenced code with a copy control, without raw HTML."
