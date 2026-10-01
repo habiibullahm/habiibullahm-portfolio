@@ -64,15 +64,19 @@ const projects = defineCollection({
     domain: z.string(),
     /** Product-type label shown on collection cards, e.g. "AI assistant". */
     type: z.string(),
-    /** Filter membership; a project may belong to several categories. */
-    categories: z.array(z.enum(["ai", "web", "tools"])).min(1),
+    /** Exactly one primary category (its main product form); capabilities carry the secondary tech/AI tags. */
+    category: z.enum(["ai", "web", "tools"]),
     /** Up to three short capability labels for the collection card. */
     capabilities: z.array(z.string()).min(1).max(3),
+    /** Year the project was built; optional until it is established from real project information. */
+    year: z.number().int().min(2000).max(2100).optional(),
     /** Global collection order (ascending). */
     order: z.number(),
     /** Detail-page preview sizing only: ai = wide screenshots, tool-helper = phone screenshots. */
     section: z.enum(["ai", "featured", "tool-helper"]).default("featured"),
     stack: z.array(z.string()).min(1),
+    /** Optional collection mark that overrides `image` where the logo needs a tighter crop or is the app icon. */
+    mark: rootRelativePath.optional(),
     /** Site-relative only (OWASP: no remote/scriptable image URLs). */
     image: rootRelativePath.optional(),
     imageAlt: z.string().default(""),

@@ -58,8 +58,11 @@
 }
 
 @layer utilities {
-  .section-anchor { scroll-margin-top: 88px; }
-  @media (min-width: 768px) { .section-anchor { scroll-margin-top: 112px; } }
+  /* Anchor jumps land the section's content (after its own top padding) ~28px below the floating header:
+     header bottom (74px mobile / 82px tablet+) + gap - .portfolio-section padding-top (64px / 112px). */
+  .section-anchor { scroll-margin-top: 38px; }
+  @media (min-width: 768px) { .section-anchor { scroll-margin-top: 0; } }
+  @media (min-width: 1024px) { .section-anchor { scroll-margin-top: 24px; } }
   html.await-hash:not(.hash-ready) body { visibility: hidden; }
 }
 
