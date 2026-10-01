@@ -40,6 +40,10 @@
   .project-detail h1 { font-size: clamp(2.4rem, 6vw, 5.5rem); max-width: 1000px; line-height: 1.04; }
   .project-detail h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
   .project-detail { padding-top: 80px; padding-bottom: 112px; }
+  @media (max-width: 767px) {
+    .portfolio-section { padding-block: 64px; }
+    .section-heading { margin-bottom: 32px; }
+  }
   @media (min-width: 768px) {
     .portfolio-section { padding: 112px 48px; }
     .section-heading { grid-template-columns: 1fr 2fr; align-items: start; gap: 24px; margin-bottom: 56px; }

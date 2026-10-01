@@ -5,7 +5,7 @@ interface Props { projects: CollectionEntry<"projects">[]; supporting?: boolean;
 const { projects, supporting = false, showcase = false } = Astro.props;
 const shots = showcase ? projects.flatMap(({id, data}) => {
   const src = data.showcase?.src ? safeSitePath(data.showcase.src) : null;
-  return src ? [{ id, src, mobileSrc: data.showcase?.mobileSrc ? safeSitePath(data.showcase.mobileSrc) : null, alt: data.showcase?.alt ?? "", title: data.title, caption: data.showcase?.caption, domain: data.domain, x: data.showcase?.focusX ?? 50, y: data.showcase?.focusY ?? 50 }] : [];
+  return src ? [{ id, src, mobileSrc: data.showcase?.mobileSrc ? safeSitePath(data.showcase.mobileSrc) : null, mobileSize: data.showcase?.mobileSize ?? [1600, 1088], alt: data.showcase?.alt ?? "", title: data.title, caption: data.showcase?.caption, domain: data.domain, x: data.showcase?.focusX ?? 50, y: data.showcase?.focusY ?? 50 }] : [];
 }) : [];
 const shotById = new Map(shots.map(shot => [shot.id, shot]));
 ---
@@ -31,8 +31,8 @@ const shotById = new Map(shots.map(shot => [shot.id, shot]));
       </a>
       <div class="project-description">
         <p>{data.summary ?? data.outcome}</p>
-        {shot && <figure class="row-showcase" data-portrait={shot.mobileSrc ? "" : undefined}>
-          {shot.mobileSrc && <img src={shot.mobileSrc} alt={shot.alt} class="shot-mobile" width="876" height="2004" loading="lazy" decoding="async" />}
+        {shot && <figure class="row-showcase" data-mobile={shot.mobileSrc ? "" : undefined}>
+          {shot.mobileSrc && <img src={shot.mobileSrc} alt={shot.alt} class="shot-mobile" width={shot.mobileSize[0]} height={shot.mobileSize[1]} loading="lazy" decoding="async" />}
           <img src={shot.src} alt={shot.alt} class:list={["shot-wide", { "has-mobile": !!shot.mobileSrc }]} width="1600" height="1088" loading="lazy" decoding="async" style={`object-position: ${shot.x}% ${shot.y}%`} />
         </figure>}
         <div class="project-actions">
@@ -78,9 +78,9 @@ const shotById = new Map(shots.map(shot => [shot.id, shot]));
   [data-project-cursor] { display: none; position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; padding: 8px 12px; border: 1px solid var(--color-line); background: var(--color-ink); color: var(--color-mist); font: 10px var(--font-mono); letter-spacing: .04em; border-radius: 2px; }
   .supporting h3 { font-size: clamp(1.25rem, 2.5vw, 2rem); }
   @media (max-width: 767px) {
-    .row-showcase[data-portrait] { max-width: none; border: 0; background: none; }
-    .row-showcase[data-portrait] .shot-wide { display: none; }
-    .row-showcase[data-portrait] .shot-mobile { display: block; width: min(200px, 62%); border: 1px solid var(--color-line); border-radius: 2px; }
+    .row-showcase[data-mobile] { width: calc(100% + 40px); max-width: none; margin-left: -40px; border: 0; background: none; }
+    .row-showcase[data-mobile] .shot-wide { display: none; }
+    .row-showcase[data-mobile] .shot-mobile { display: block; width: auto; max-width: 100%; max-height: 420px; border: 1px solid var(--color-line); border-radius: 2px; }
   }
   @media (min-width: 768px) {
     .project-row { padding-block: 32px 24px; }

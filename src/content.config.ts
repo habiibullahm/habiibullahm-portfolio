@@ -48,8 +48,10 @@ const projects = defineCollection({
     summary: z.string().min(1).optional(),
     showcase: z.object({
       src: rootRelativePath,
-      /** Optional portrait capture shown inline on narrow screens. */
+      /** Optional capture (phone screenshot or tight crop) shown inline on narrow screens. */
       mobileSrc: rootRelativePath.optional(),
+      /** Intrinsic [width, height] of mobileSrc, to reserve layout space. */
+      mobileSize: z.tuple([z.number().int().positive(), z.number().int().positive()]).optional(),
       alt: z.string().min(1),
       focusX: z.number().min(0).max(100).default(50),
       focusY: z.number().min(0).max(100).default(50),

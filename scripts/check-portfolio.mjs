@@ -13,7 +13,7 @@ assert.match(homepage, /<meta name="twitter:card" content="summary_large_image"/
 assert.match(homepage, /<link rel="canonical" href="https:\/\/habiibullahm\.my\.id\//);
 assert.match(homepage, /Bidakara AI Assistant/);
 assert.match(homepage, /AGRES AI Sales Assistant/);
-for (const file of ["bidakara-showcase-desktop.webp", "bidakara-showcase-mobile.webp", "agres-ai-sales-assistant-preview.webp", "task-management-showcase-desktop.webp"]) {
+for (const file of ["bidakara-showcase-desktop.webp", "bidakara-showcase-mobile.webp", "agres-ai-sales-assistant-preview.webp", "agres-showcase-mobile.webp", "task-management-showcase-desktop.webp", "task-management-showcase-mobile.webp"]) {
   assert.ok(homepage.includes(`<img src="/images/projects/${file}"`), `${file}: homepage renders its showcase image`);
   assert.ok(existsSync(join("dist", "images", "projects", file)), `${file} is published`);
 }
