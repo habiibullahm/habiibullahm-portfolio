@@ -18,6 +18,6 @@ export function syncAllNavLinks(sectionId: string): void {
   document
     .querySelectorAll<HTMLAnchorElement>("[data-nav-link]")
     .forEach((link) => {
-      applyNavLinkActive(link, link.dataset.navLink === sectionId);
+      applyNavLinkActive(link, link.dataset.navLink === (sectionId === "ai-projects" || sectionId === "engineering-projects" ? "projects" : sectionId));
     });
 }

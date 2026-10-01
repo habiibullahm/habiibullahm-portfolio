@@ -1,25 +1,45 @@
 ---
 import { safeExternalUrl, site } from "../../data/site";
-const aiServices = safeExternalUrl(site.aiServicesUrl);
+const links = [
+  { label: "GitHub", href: safeExternalUrl(site.socials.github) },
+  { label: "LinkedIn", href: safeExternalUrl(site.socials.linkedin) },
+  { label: "AI Services", href: safeExternalUrl(site.aiServicesUrl) },
+];
 ---
 
 <section id="home" data-section class="section-anchor" aria-labelledby="hero-heading">
-  <div class="portfolio-section hero-content grid items-center gap-10 md:grid-cols-[1fr_280px] md:gap-16">
-    <div>
-      <p class="text-sm text-muted">Habib · Jakarta, Indonesia</p>
-      <h1 id="hero-heading" class="mt-4 max-w-2xl text-[clamp(2.5rem,5vw,4rem)] leading-[1.12]">AI &amp; Full-Stack Engineer<span class="text-accent">.</span></h1>
-      <p class="mt-5 max-w-lg text-lg text-muted">{site.tagline}</p>
-      <div class="mt-7 flex flex-wrap gap-3">
-        <a href="#ai-projects" class="motion-cta inline-flex min-h-11 items-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-mist hover:bg-ink">View projects <span class="ml-2 motion-arrow motion-arrow-down" aria-hidden="true">↓</span></a>
-        <a href="/resume" class="motion-cta inline-flex min-h-11 items-center rounded-lg border border-line px-5 py-3 text-sm hover:border-accent">Resume</a>
-      </div>
-      {aiServices && <a href={aiServices} target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex min-h-11 items-center text-sm text-muted hover:text-accent">AI Services ↗</a>}
+  <div class="portfolio-section hero-content">
+    <div class="hero-byline" data-hero-reveal>
+      <p class="section-kicker">{site.name}</p>
+      <p class="section-kicker">Jakarta, Indonesia</p>
     </div>
-    <img src="/images/habib-profile.webp" alt="Muhammad Habiibullah" width="480" height="480" fetchpriority="high" class="aspect-square w-full max-w-[280px] rounded-lg border border-line object-cover" />
+    <h1 id="hero-heading" data-hero-reveal>AI &amp; Full-Stack<br class="hidden md:block" /> Engineer<span class="text-accent">.</span></h1>
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-message" data-hero-reveal>I build practical AI systems and production software for real-world problems.</p>
+        <div class="mt-8 flex flex-wrap gap-3" data-hero-reveal>
+          <a href="#projects" class="motion-cta primary">Selected Work <span class="motion-arrow" aria-hidden="true">↘</span></a>
+          <a href="/resume" class="motion-cta">Resume <span class="motion-arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="hero-socials" data-hero-reveal>
+        {links.map(({label, href}) => href && <a href={href} target="_blank" rel="noopener noreferrer" class="text-link text-sm text-muted">{label} <span class="motion-arrow" aria-hidden="true">↗</span></a>)}
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
-  .hero-content { padding-top: 144px; padding-bottom: 64px; }
-  @media (min-width: 768px) { .hero-content { padding-top: 176px; padding-bottom: 80px; } }
+  .hero-content { padding-top: 168px; padding-bottom: 80px; }
+  .hero-byline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+  h1 { margin-top: 44px; max-width: 1050px; font-size: clamp(2.8rem, 7.8vw, 6.7rem); line-height: 1.04; letter-spacing: -.055em; }
+  .hero-bottom { display: grid; gap: 32px; margin-top: 40px; }
+  .hero-message { max-width: 530px; font-size: clamp(1rem, 1.8vw, 1.25rem); color: var(--color-muted); }
+  .hero-socials { display: flex; flex-wrap: wrap; gap: 6px 24px; }
+  @media (min-width: 768px) {
+    .hero-content { padding-top: 196px; padding-bottom: 104px; }
+    h1 { margin-top: 64px; }
+    .hero-bottom { grid-template-columns: 2fr 1fr; align-items: end; margin-top: 56px; }
+    .hero-socials { justify-content: flex-end; }
+  }
 </style>

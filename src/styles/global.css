@@ -1,62 +1,68 @@
 @import "tailwindcss";
+@import "@fontsource/syne/500.css";
+@import "@fontsource/syne/600.css";
 @import "@fontsource/ibm-plex-mono/400.css";
-@import "@fontsource/ibm-plex-mono/500.css";
 
 @theme {
-  --font-display: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
   --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --color-mist: #080809;
-  --color-ink: #f3f2f5;
-  --color-muted: #b3b0bc;
-  --color-line: #34323c;
-  --color-accent: #a29bff;
-  --color-accent-soft: #24202e;
-  --color-surface: #141419;
+  --color-mist: #080808;
+  --color-surface: #111111;
+  --color-ink: #eeede9;
+  --color-muted: #aaa9a6;
+  --color-line: #292929;
+  --color-accent: #b0a3d5;
+  --color-accent-soft: #1c1824;
+}
+
+@layer base {
+  html { scroll-behavior: auto; color-scheme: dark; }
+  body { @apply bg-mist text-ink font-body antialiased; line-height: 1.65; }
+  h1, h2, h3 { @apply font-display font-medium; letter-spacing: -0.045em; }
+  button:not(:disabled) { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 5px; }
+  ::selection { background: var(--color-accent); color: var(--color-mist); }
 }
 
 @layer components {
-  .portfolio-section {
-    width: 100%;
-    max-width: 1152px;
-    margin-inline: auto;
-    padding: 64px 16px;
-  }
-  @media (min-width: 768px) {
-    .portfolio-section { padding: 88px 24px; }
-  }
-  .motion-cta { transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease; }
+  .portfolio-section { width: 100%; max-width: 1200px; margin-inline: auto; padding: 88px 24px; }
+  .section-heading { display: grid; gap: 20px; margin-bottom: 44px; }
+  .section-kicker { font: 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); }
+  .section-title { font-size: clamp(2rem, 4.4vw, 4rem); line-height: 1.12; }
+  .section-rule { display: block; height: 1px; background: var(--color-line); transform-origin: left; }
+  .text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; transition: color 250ms ease; }
+  .text-link:hover { color: var(--color-accent); }
+  .motion-cta { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 14px; padding: 12px 22px; border: 1px solid var(--color-line); border-radius: 2px; font-size: 14px; transition: transform 180ms ease, background-color 250ms ease, border-color 250ms ease; }
+  .motion-cta.primary { color: var(--color-mist); background: var(--color-ink); border-color: var(--color-ink); }
   .motion-arrow { display: inline-block; transition: transform 180ms ease; }
+  .index-row { display: grid; gap: 14px; padding-block: 28px; border-top: 1px solid var(--color-line); }
+  .project-detail h1 { font-size: clamp(2.4rem, 6vw, 5.5rem); max-width: 1000px; line-height: 1.04; }
+  .project-detail h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+  .project-detail { padding-top: 80px; padding-bottom: 112px; }
+  @media (min-width: 768px) {
+    .portfolio-section { padding: 112px 48px; }
+    .section-heading { grid-template-columns: 1fr 2fr; align-items: start; gap: 24px; margin-bottom: 56px; }
+    .section-rule { grid-column: 1 / -1; }
+    .index-row { grid-template-columns: 1fr 2fr; gap: 24px; padding-block: 32px; }
+  }
   @media (hover: hover) and (pointer: fine) {
-    .motion-cta:hover { transform: translateY(-2px); }
+    .motion-cta:hover { transform: translateY(-2px); border-color: var(--color-accent); }
+    .motion-cta.primary:hover { background: var(--color-accent); }
     a:hover .motion-arrow { transform: translateX(2px); }
   }
 }
 
-@layer base {
-  html {
-    scroll-behavior: auto;
-    color-scheme: dark;
-  }
-  body {
-    @apply bg-mist text-ink font-body antialiased;
-    line-height: 1.7;
-  }
-  h1, h2, h3 { @apply font-display font-semibold tracking-tight; }
-  button:not(:disabled) { cursor: pointer; }
-  :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
-  ::selection { background: #a29bff; color: #080809; }
-}
-
 @layer utilities {
-  .section-anchor { scroll-margin-top: 6rem; }
+  .section-anchor { scroll-margin-top: 112px; }
   html.await-hash:not(.hash-ready) body { visibility: hidden; }
 }
 
+@media (max-width: 374px) { .portfolio-section { padding-inline: 20px; } }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition-duration: 0s !important;
-  }
+  *, *::before, *::after { animation: none !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
   .motion-cta:hover, a:hover .motion-arrow { transform: none; }
+}
+@media print {
+  [data-project-cursor], .row-preview { display: none !important; }
 }

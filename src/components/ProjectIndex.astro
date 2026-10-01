@@ -1,0 +1,108 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { safeExternalUrl, safeSitePath } from "../data/site";
+interface Props { projects: CollectionEntry<"projects">[]; supporting?: boolean; }
+const { projects, supporting = false } = Astro.props;
+---
+
+<ul data-project-index class:list={["project-index", { supporting }]}>
+  {projects.map(({id, data}, index) => {
+    const preview = data.previews?.find(item => item.type === "image");
+    const video = data.previews?.find(item => item.type === "video");
+    const media = data.showcase?.src ?? (preview?.type === "image" ? preview.src : video?.type === "video" ? video.poster ?? data.image : data.image);
+    const image = media ? safeSitePath(media) : null;
+    const live = data.links?.live ? safeExternalUrl(data.links.live) : null;
+    const repo = data.links?.repo ? safeExternalUrl(data.links.repo) : null;
+    return <li data-project-row data-project-id={id} class="project-row" id={id === "bidakara-ai-assistant" ? "ai-projects" : undefined}>
+      {image && <img src={image} alt="" aria-hidden="true" class="row-preview" width="1200" height="800" loading="lazy" decoding="async" style={`object-position: ${data.showcase?.focusX ?? 50}% ${data.showcase?.focusY ?? 50}%`} />}
+      <a href={`/projects/${id}`} data-project-open class="project-link">
+        <span class="project-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        <div class="project-heading">
+          <h3>{data.title}</h3>
+          <p class="project-domain">{data.domain}{data.showcase?.caption && <span class="demo-label">{data.showcase.caption}</span>}</p>
+        </div>
+        <span class="project-arrow motion-arrow" aria-hidden="true">↗</span>
+      </a>
+      <div class="project-description">
+        <p>{data.summary ?? data.outcome}</p>
+        <div class="project-actions">
+          {image && <a href={image} data-original-preview target="_blank" rel="noopener noreferrer" aria-label={`Preview ${data.title} image (opens in a new tab)`}>Preview ↗</a>}
+          {live && <a href={live} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}
+          {repo && <a href={repo} target="_blank" rel="noopener noreferrer">Code ↗</a>}
+        </div>
+      </div>
+    </li>;
+  })}
+</ul>
+<span data-project-cursor aria-hidden="true">View project ↗</span>
+
+<style>
+  .project-index { border-bottom: 1px solid var(--color-line); }
+  .project-row { position: relative; isolation: isolate; border-top: 1px solid var(--color-line); padding: 28px 0 20px; scroll-margin-top: 112px; transition: background-color 400ms ease, opacity 300ms ease; }
+  .project-link { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) 20px; gap: 16px; min-height: 44px; align-items: baseline; }
+  .project-number { font: 11px var(--font-mono); color: var(--color-muted); }
+  .project-heading { min-width: 0; }
+  h3 { font-size: clamp(1.4rem, 3.2vw, 2.7rem); line-height: 1.18; overflow-wrap: anywhere; }
+  .project-domain { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 12px; font-size: 12px; color: var(--color-muted); }
+  .demo-label { color: var(--color-accent); }
+  .project-arrow { font-size: 24px; }
+  .project-description { position: relative; padding-left: 40px; margin-top: 16px; font-size: 14px; color: var(--color-muted); }
+  .project-description > p { max-width: 660px; }
+  .project-actions { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 8px; font-size: 14px; }
+  .project-actions a { display: inline-flex; align-items: center; min-height: 44px; transition: color 250ms ease; }
+  .project-actions a:hover { color: var(--color-ink); }
+  .row-preview { display: none; position: absolute; inset: 0 0 0 auto; width: 62%; height: 100%; object-fit: cover; opacity: 0; pointer-events: none; z-index: -1; filter: blur(10px) saturate(.5); mask-image: linear-gradient(to right, transparent, black); transition: opacity 400ms ease; }
+  [data-project-cursor] { display: none; position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; padding: 8px 12px; border: 1px solid var(--color-line); background: var(--color-ink); color: var(--color-mist); font: 10px var(--font-mono); letter-spacing: .04em; border-radius: 2px; }
+  .supporting h3 { font-size: clamp(1.25rem, 2.5vw, 2rem); }
+  @media (min-width: 768px) {
+    .project-row { padding-block: 32px 24px; }
+    .project-link { grid-template-columns: 52px minmax(0, 1fr) 32px; gap: 20px; }
+    .project-description { padding-left: 72px; }
+  }
+  @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+    .row-preview { display: block; }
+    .project-row:hover, .project-row:focus-within { background: #0d0c12; }
+    .project-row[data-project-id="agres-ai-sales-assistant"]:hover { background: #0c0d12; }
+    .project-row[data-project-id="podmark"]:hover { background: #0d0d0d; }
+    .project-row:hover .row-preview, .project-row:focus-within .row-preview { opacity: .12; }
+    .project-index:has(.project-row:hover) .project-row:not(:hover) { opacity: .82; }
+    [data-project-cursor].is-active { display: block; }
+  }
+  @media (prefers-reduced-motion: reduce) { [data-project-cursor] { display: none !important; } }
+</style>
+
+<script>
+  let abort: AbortController | null = null;
+  function initProjectCursor() {
+    abort?.abort();
+    abort = new AbortController();
+    const {signal} = abort;
+    const fine = window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    document.querySelectorAll<HTMLElement>("[data-project-index]").forEach(index => {
+      const cursor = index.nextElementSibling;
+      if (!(cursor instanceof HTMLElement) || !cursor.hasAttribute("data-project-cursor")) return;
+      const hide = () => cursor.classList.remove("is-active");
+      index.querySelectorAll<HTMLElement>("[data-project-open]").forEach(link => {
+        link.addEventListener("pointermove", event => {
+          if (!fine.matches || reduce.matches || event.pointerType !== "mouse") { hide(); return; }
+          const x = Math.max(4, Math.min(event.clientX + 16, window.innerWidth - 152));
+          const y = Math.max(4, Math.min(event.clientY + 16, window.innerHeight - 40));
+          cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+          cursor.classList.add("is-active");
+        }, {signal});
+        link.addEventListener("pointerleave", hide, {signal});
+        link.addEventListener("click", hide, {signal});
+      });
+      window.addEventListener("scroll", hide, {passive: true, signal});
+      window.addEventListener("resize", hide, {signal});
+      window.addEventListener("beforeprint", hide, {signal});
+      document.addEventListener("focusin", hide, {signal});
+      reduce.addEventListener("change", hide, {signal});
+      fine.addEventListener("change", hide, {signal});
+      signal.addEventListener("abort", hide, {once: true});
+    });
+  }
+  document.addEventListener("astro:page-load", initProjectCursor);
+  document.addEventListener("astro:before-swap", () => abort?.abort());
+</script>

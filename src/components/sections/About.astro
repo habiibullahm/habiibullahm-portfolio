@@ -1,26 +1,13 @@
 ---
-import { contributions, education, safeExternalUrl } from "../../data/site";
+import { education, site } from "../../data/site";
 ---
-
-<section id="about" data-section class="section-anchor border-b border-line" aria-labelledby="about-heading">
+<section id="about" data-section class="section-anchor" aria-labelledby="about-heading">
   <div class="portfolio-section">
-    <h2 id="about-heading" class="text-3xl md:text-4xl">About</h2>
-    <div class="mt-5 max-w-2xl space-y-4 text-muted">
-      <p>I'm Habib, a Jakarta-based engineer at PT. Dans Multi Pro. I build enterprise applications and explore practical uses of AI.</p>
-      <p>I enjoy turning real needs into useful software, from the interface and APIs to data and deployment.</p>
+    <div class="section-heading">
+      <span class="section-rule" data-line-reveal="about-line" aria-hidden="true"></span>
+      <p class="section-kicker">06 / About</p>
+      <h2 id="about-heading" class="section-title" data-reveal="about-heading">Product-minded<br />engineering.</h2>
     </div>
-    <dl class="mt-8 max-w-2xl space-y-5 border-t border-line pt-6 text-sm">
-      <div>
-        <dt class="font-semibold">Education</dt>
-        {education.map((item) => <dd class="mt-1 text-muted">{item.title}<br />{item.org}</dd>)}
-      </div>
-      <div id="contributions" class="section-anchor" data-section>
-        <dt class="font-semibold">Open source</dt>
-        {contributions.map((item) => {
-          const href = safeExternalUrl(item.href);
-          return <dd class="mt-1 text-muted">{item.title} · Pipedream{href && <a href={href} target="_blank" rel="noopener noreferrer" class="ml-3 inline-flex min-h-11 items-center text-accent hover:underline">View merged PR ↗</a>}</dd>;
-        })}
-      </div>
-    </dl>
+    <div class="index-row"><p class="text-sm text-muted">Muhammad Habiibullah<br />Jakarta, Indonesia</p><div class="max-w-2xl space-y-5 text-muted">{site.about.paragraphs.map(paragraph => <p>{paragraph}</p>)}<div class="border-t border-line pt-6"><h3 class="mb-2 text-sm text-ink">Education</h3>{education.map(item => <p class="text-sm">{item.title}<br />{item.org}</p>)}</div></div></div>
   </div>
 </section>

@@ -30,9 +30,12 @@ export const site = {
     "Currently a Full-Stack Developer at PT. Dans Multi Pro and open to opportunities in AI and full-stack engineering.",
 } as const;
 
+export const selectedProjectIds: readonly string[] = [
+  "bidakara-ai-assistant", "agres-ai-sales-assistant", "podmark", "task-management",
+];
+
 export const nav = [
   { id: "projects", label: "Work", short: "Work", href: "#projects" },
-  { id: "ai-projects", label: "AI Projects", short: "AI projects", href: "#ai-projects" },
   { id: "experience", label: "Experience", short: "Experience", href: "#experience" },
   { id: "about", label: "About", short: "About", href: "#about" },
   { id: "contact", label: "Contact", short: "Contact", href: "#contact" },

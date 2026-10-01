@@ -1,16 +1,18 @@
 ---
 import { getCollection } from "astro:content";
-import ProjectSlider from "../ProjectSlider.astro";
-
+import ProjectIndex from "../ProjectIndex.astro";
+import { selectedProjectIds as selected } from "../../data/site";
 const projects = (await getCollection("projects"))
-  .filter((project) => !project.data.draft && project.data.section !== "ai")
+  .filter(project => !project.data.draft && !selected.includes(project.id))
   .sort((a, b) => Number(a.data.section === "tool-helper") - Number(b.data.section === "tool-helper") || a.data.order - b.data.order);
 ---
-
-<section id="projects" data-section class="section-anchor border-b border-line" aria-labelledby="projects-heading">
+<section id="engineering-projects" data-section class="section-anchor" aria-labelledby="engineering-heading">
   <div class="portfolio-section">
-    <h2 id="projects-heading" class="text-3xl md:text-4xl">Engineering &amp; tools</h2>
-    <p class="mb-8 mt-3 text-muted">Web applications and automation built around everyday tasks.</p>
-    <ProjectSlider id="projects" label="Engineering and tools" projects={projects} />
+    <div class="section-heading">
+      <span class="section-rule" data-line-reveal="engineering-line" aria-hidden="true"></span>
+      <p class="section-kicker">03 / Engineering &amp; tools</p>
+      <div data-reveal="engineering-heading"><h2 id="engineering-heading" class="section-title">More useful software.</h2><p class="mt-5 max-w-lg text-muted">Web applications and automation built around everyday tasks.</p></div>
+    </div>
+    <ProjectIndex projects={projects} supporting />
   </div>
 </section>

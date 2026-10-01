@@ -7,6 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: "https://habiibullahm.my.id/",
   integrations: [mdx()],
+  devToolbar: { enabled: false },
   vite: {
     build: { assetsInlineLimit: 0 },
     plugins: [tailwindcss()],

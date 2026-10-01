@@ -6,6 +6,7 @@ const sections = [
   "ai-projects",
   "contributions",
   "projects",
+  "engineering-projects",
   "about",
   "experience",
   "contact",
@@ -130,6 +131,7 @@ export function initScrollSpy(): void {
     link.addEventListener(
       "click",
       (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         const id = link.dataset.navLink;
         if (!id || !isSectionId(id)) return;
 

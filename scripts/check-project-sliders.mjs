@@ -2,29 +2,32 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const homepage = readFileSync("dist/index.html", "utf8");
-const groups = {
-  "ai-projects": ["bidakara-ai-assistant", "agres-ai-sales-assistant"],
-  projects: ["podmark", "trendplan", "task-management", "sahamku", "cv-screener", "jobmatch-helper"],
-};
-
-assert.equal([...homepage.matchAll(/data-project-slider\b/g)].length, 2);
-assert.doesNotMatch(homepage, /<form\b|reveal-pending/);
-for (const [section, slugs] of Object.entries(groups)) {
-  const track = homepage.match(new RegExp(`<ul\\b[^>]*id="${section}-track"[\\s\\S]*?<\\/ul>`))?.[0];
-  assert.ok(track, `${section}: slider is rendered`);
-  assert.match(track, /tabindex="0"/);
-  assert.equal([...track.matchAll(/data-project-card\b/g)].length, slugs.length);
+const groups = [
+  ["bidakara-ai-assistant", "agres-ai-sales-assistant", "podmark", "task-management"],
+  ["trendplan", "sahamku", "cv-screener", "jobmatch-helper"],
+];
+const lists = [...homepage.matchAll(/<ul\b[^>]*data-project-index[^>]*>[\s\S]*?<\/ul>/g)].map(([list]) => list);
+assert.equal(lists.length, 2, "Selected and supporting project indexes are rendered");
+assert.doesNotMatch(homepage, /data-project-slider|data-slider-track|reveal-pending/);
+for (const [index, slugs] of groups.entries()) {
+  const list = lists[index];
+  assert.equal([...list.matchAll(/data-project-row\b/g)].length, slugs.length);
   let previous = -1;
   for (const slug of slugs) {
-    const position = track.indexOf(`href="/projects/${slug}"`);
-    assert.ok(position > previous, `${slug}: correct slider and order`);
+    const position = list.indexOf(`href="/projects/${slug}"`);
+    assert.ok(position > previous, `${slug}: correct project index and order`);
     previous = position;
     const page = readFileSync(`dist/projects/${slug}/index.html`, "utf8");
-    assert.equal([...page.matchAll(new RegExp(`href="/#${section}"`, "g"))].length, 2, `${slug}: both return links target its category`);
+    const anchor = slug.endsWith("assistant") ? "ai-projects" : "projects";
+    assert.equal([...page.matchAll(new RegExp(`href="/#${anchor}"`, "g"))].length, 2, `${slug}: category return links remain available`);
   }
 }
-for (const id of ["focus", "experience", "about", "contributions", "contact"]) {
+for (const id of ["home", "projects", "ai-projects", "focus", "experience", "about", "contributions", "contact"]) {
   assert.ok(homepage.includes(`id="${id}"`), `Legacy anchor #${id} remains available`);
 }
+assert.ok(homepage.indexOf('id="nav-toggle"') < homepage.indexOf('id="primary-nav"'), "Menu toggle precedes navigation links in DOM order");
+assert.match(homepage, /<nav[^>]*id="primary-nav"[^>]*inert/);
 assert.match(homepage, /href="mailto:[^"]+"/);
-console.log("Project slider checks passed: 2 groups, 8 ordered projects, category return links, legacy anchors, and direct contact.");
+assert.match(homepage, /Independent demo/);
+assert.match(homepage, /Demo · sample data/);
+console.log("Project index checks passed: 8 ordered projects, preserved return links/anchors, demo labels, menu DOM order, and direct contact.");
