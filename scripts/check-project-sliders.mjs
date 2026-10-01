@@ -3,11 +3,14 @@ import { readFileSync } from "node:fs";
 
 const homepage = readFileSync("dist/index.html", "utf8");
 const groups = [
-  ["bidakara-ai-assistant", "agres-ai-sales-assistant", "podmark", "task-management"],
-  ["trendplan", "sahamku", "cv-screener", "jobmatch-helper"],
+  ["bidakara-ai-assistant", "agres-ai-sales-assistant", "task-management"],
+  ["podmark", "trendplan", "sahamku", "cv-screener", "jobmatch-helper"],
 ];
 const lists = [...homepage.matchAll(/<ul\b[^>]*data-project-index[^>]*>[\s\S]*?<\/ul>/g)].map(([list]) => list);
 assert.equal(lists.length, 2, "Selected and supporting project indexes are rendered");
+assert.equal([...homepage.matchAll(/data-showcase-panel/g)].length, 1, "One shared showcase panel serves Selected Work only");
+assert.equal([...lists[0].matchAll(/<figure class="row-showcase"/g)].length, 3, "Each selected project has an inline showcase for narrow screens");
+assert.doesNotMatch(lists[1], /row-showcase/, "Supporting projects stay text-led");
 assert.doesNotMatch(homepage, /data-project-slider|data-slider-track|reveal-pending/);
 for (const [index, slugs] of groups.entries()) {
   const list = lists[index];

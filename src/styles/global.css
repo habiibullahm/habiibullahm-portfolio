@@ -64,5 +64,5 @@
   .motion-cta:hover, a:hover .motion-arrow { transform: none; }
 }
 @media print {
-  [data-project-cursor], .row-preview { display: none !important; }
+  [data-project-cursor], .showcase-panel { display: none !important; }
 }

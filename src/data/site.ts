@@ -31,7 +31,7 @@ export const site = {
 } as const;
 
 export const selectedProjectIds: readonly string[] = [
-  "bidakara-ai-assistant", "agres-ai-sales-assistant", "podmark", "task-management",
+  "bidakara-ai-assistant", "agres-ai-sales-assistant", "task-management",
 ];
 
 export const nav = [
