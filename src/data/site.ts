@@ -33,6 +33,7 @@ export const site = {
 export const nav = [
   { id: "projects", label: "Projects", short: "Projects", href: "#projects" },
   { id: "experience", label: "Experience", short: "Experience", href: "#experience" },
+  { id: "lab", label: "Lab", short: "Lab", href: "#lab" },
   { id: "about", label: "About", short: "About", href: "#about" },
 ] as const;
 
@@ -121,3 +122,16 @@ export function safeSitePath(path: string): string | null {
   }
   return null;
 }
+
+export const lab = [
+  {
+    title: "Hybrid AI Agent & VPS Infrastructure",
+    slug: "hybrid-ai-vps-infrastructure",
+    year: "2026",
+    tags: ["Infrastructure", "AI Ops", "Networking"],
+    summary:
+      "Built a production hybrid setup: Hermes Agent and 9Router run 24/7 on a Tencent Cloud VPS, with Google Antigravity inference routed through an allowlisted reverse SSH tunnel over residential ISP egress to bypass cloud datacenter IP blocks.",
+    outcome:
+      "Zero-added-cost pipeline ? Antigravity models accessible from VPS without residential proxy fees, with automated fallback to free-tier providers when the tunnel is down.",
+  },
+] as const;

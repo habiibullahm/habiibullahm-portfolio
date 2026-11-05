@@ -1,0 +1,156 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../data/site";
+
+export async function getStaticPaths() {
+  const labEntries = await getCollection("lab", ({ data }) => !data.draft);
+  return labEntries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.mdx$/, "") },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const pageTitle = `${data.title} · Lab · ${site.name}`;
+const backHref = "/#lab";
+---
+
+<BaseLayout title={pageTitle} description={data.summary}>
+  <header class="sticky top-0 z-40 border-b border-line bg-mist">
+    <div class="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-3 px-5 md:px-6">
+      <a href="/#home" class="font-display text-sm font-semibold text-ink no-underline hover:text-accent">
+        {site.name}
+      </a>
+      <a href={backHref} class="inline-flex min-h-11 items-center text-sm text-muted no-underline hover:text-accent">
+        ← Back to Lab
+      </a>
+    </div>
+  </header>
+
+  <main id="main" class="mx-auto max-w-5xl px-5 py-12 md:px-8 md:py-20">
+    <!-- Header Meta -->
+    <div class="flex items-center gap-3 font-mono text-xs text-muted">
+      <span>LAB / DEVLOG</span>
+      <span>·</span>
+      <time datetime={data.date}>{data.date}</time>
+    </div>
+
+    <!-- Title & Summary -->
+    <h1 class="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
+      {data.title}
+    </h1>
+    <p class="mt-6 max-w-3xl text-lg leading-relaxed text-muted">
+      {data.summary}
+    </p>
+
+    <!-- Tags -->
+    <div class="mt-6 flex flex-wrap gap-2">
+      {data.tags.map((tag) => (
+        <span class="rounded-sm border border-line px-2.5 py-1 font-mono text-xs text-ink/80">
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <!-- Key Outcome Highlight -->
+    <div class="mt-10 rounded-sm border-l-2 border-accent bg-surface p-5 sm:p-6">
+      <p class="font-mono text-xs tracking-wider text-accent uppercase">Outcome</p>
+      <p class="mt-2 text-base text-ink">{data.outcome}</p>
+    </div>
+
+    <!-- Detailed Learning Breakdown -->
+    <div class="mt-14 space-y-14 border-t border-line pt-12">
+      <!-- Problem -->
+      <section>
+        <div class="flex items-center gap-2">
+          <span class="font-mono text-xs text-accent">01</span>
+          <h2 class="font-display text-2xl text-ink">The Problem & Constraints</h2>
+        </div>
+        <ul class="mt-5 space-y-3">
+          {data.problem.map((item) => (
+            <li class="flex items-start gap-3 text-muted">
+              <span class="mt-2 block size-1.5 shrink-0 rounded-full bg-line"></span>
+              <span class="leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Process -->
+      <section>
+        <div class="flex items-center gap-2">
+          <span class="font-mono text-xs text-accent">02</span>
+          <h2 class="font-display text-2xl text-ink">Engineering Process</h2>
+        </div>
+        <ol class="mt-5 space-y-4">
+          {data.process.map((step, idx) => (
+            <li class="flex items-start gap-4 text-muted">
+              <span class="font-mono text-xs text-accent/80 mt-1">{String(idx + 1).padStart(2, '0')}.</span>
+              <span class="leading-relaxed">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- Key Decisions -->
+      <section>
+        <div class="flex items-center gap-2">
+          <span class="font-mono text-xs text-accent">03</span>
+          <h2 class="font-display text-2xl text-ink">Key Architectural Decisions</h2>
+        </div>
+        <ul class="mt-5 space-y-3">
+          {data.decisions.map((decision) => (
+            <li class="flex items-start gap-3 text-muted">
+              <span class="mt-2 block size-1.5 shrink-0 rounded-full bg-accent"></span>
+              <span class="leading-relaxed">{decision}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Lessons Learned -->
+      <section>
+        <div class="flex items-center gap-2">
+          <span class="font-mono text-xs text-accent">04</span>
+          <h2 class="font-display text-2xl text-ink">What I Learned</h2>
+        </div>
+        <ul class="mt-5 space-y-3">
+          {data.learnings.map((lesson) => (
+            <li class="flex items-start gap-3 text-muted">
+              <span class="mt-2 block size-1.5 shrink-0 rounded-full bg-accent"></span>
+              <span class="leading-relaxed">{lesson}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Extra detail (MDX body) -->
+      <section class="lab-body">
+        <Content />
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-line">
+    <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-8 md:px-6">
+      <a href="/#home" class="font-display text-sm text-muted no-underline hover:text-ink">
+        {site.name}
+      </a>
+      <a href={backHref} class="inline-flex min-h-11 items-center text-sm text-accent no-underline hover:underline">
+        Back to Lab
+      </a>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style is:global>
+  .lab-body h2 { margin-top: 2.5rem; font-family: var(--font-display, inherit); font-size: 1.5rem; color: var(--color-ink, inherit); }
+  .lab-body h2:first-child { margin-top: 0; }
+  .lab-body p, .lab-body li { margin-top: 0.75rem; line-height: 1.7; color: var(--color-muted, inherit); }
+  .lab-body ul { margin-top: 0.75rem; padding-left: 1.25rem; list-style: disc; }
+  .lab-body pre { margin-top: 1rem; overflow-x: auto; padding: 1rem; border: 1px solid var(--color-line, #ccc); border-radius: 2px; font-size: 0.85rem; }
+  .lab-body code { font-family: var(--font-mono, monospace); font-size: 0.9em; }
+</style>
