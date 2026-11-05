@@ -95,4 +95,22 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+
+const lab = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/lab" }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    date: z.string(),
+    tags: z.array(z.string()),
+    problem: z.array(z.string()),
+    process: z.array(z.string()),
+    decisions: z.array(z.string()),
+    learnings: z.array(z.string()),
+    outcome: z.string(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, lab };
+

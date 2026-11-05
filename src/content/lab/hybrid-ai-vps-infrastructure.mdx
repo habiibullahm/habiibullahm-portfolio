@@ -1,0 +1,73 @@
+---
+title: "Hybrid AI Agent & VPS Infrastructure"
+summary: "A production hybrid AI agent setup routing 24/7 background tasks on a cloud VPS while relaying geo-restricted model inference through an allowlisted local residential proxy."
+date: "2026-11-05"
+tags: ["Infrastructure", "AI Ops", "Networking", "Security"]
+problem:
+  - "Google Cloud Code / Antigravity API blocks cloud datacenter egress IP ranges (HTTP 403 Forbidden) from Tencent Cloud AS132203."
+  - "Commercial residential proxies charge per gigabyte, creating recurring costs for continuous coding agent workflows."
+  - "Running the agent solely on a personal laptop requires the machine to stay awake 24/7, breaking scheduled automation, cron jobs, and background maintenance."
+process:
+  - "Analyzed upstream network traffic: confirmed OAuth token exchange succeeded on the VPS, but payload generation failed with HTTP 403 on Google datacenter IP filters."
+  - "Implemented an allowlisted Node.js HTTP CONNECT proxy on the laptop (127.0.0.1:18080) only allowing port 443 and a short list of hosts (Google, ipinfo.io, codebuddy.ai, tencent.com, minimax), without payload inspection."
+  - "Configured a resilient SSH reverse tunnel forwarding VPS port 127.0.0.1:18081 back to the laptop proxy (127.0.0.1:18080) with automatic keep-alive and reconnection."
+  - "Configured 9Router on the VPS with a dedicated proxy pool (strictProxy: true) mapped to the Antigravity provider connection."
+  - "Added a Windows Startup shortcut (install-startup.ps1 and run-hidden.vbs) so the proxy and tunnel start hidden at every login. If the tunnel drops, the start script retries every 10 seconds."
+  - "Added automated fallback combos (Nous, Groq, OpenRouter) so the 24/7 agent seamlessly uses alternative free models when the local laptop tunnel is closed."
+decisions:
+  - "Hybrid architecture over pure local: VPS stays 24/7 for Hermes gateway, webhooks, and monitoring, while the laptop acts strictly as an egress bridge when active."
+  - "Strict proxy enforcement: Configured strictProxy to true in 9Router to prevent repeated 403 errors on cloud IP from triggering Google account-level rate locks."
+  - "Loopback-only binding: All services (proxy, monitoring, 9router API) bind to 127.0.0.1, reachable solely via authenticated SSH tunneling."
+learnings:
+  - "Cloud datacenter reputation scoring is distinct from API key validity; OAuth passes while inference endpoints reject datacenter ASNs."
+  - "In PowerShell, curl is an alias for another command. Use curl.exe to test the proxy."
+  - "A manual run and the Startup copy at the same time conflict: the second tunnel fails because VPS port 18081 is already taken. Close the manual one."
+  - "One 403 locks the model in 9Router for 2 minutes, so test once and wait."
+  - "Multi-tier routing in 9Router handles transient local bridge disconnections gracefully via model combos."
+  - "Zero-cost residential egress can be achieved with lightweight hardware (like home routers or low-power mini devices) via reverse SSH."
+outcome: "A resilient, zero-added-cost AI operations pipeline. Hermes agent and 9Router operate 24/7 on the VPS, with Google Antigravity inference successfully routed through the local residential IP."
+---
+
+Deep dive and technical devlog into engineering a hybrid cloud-local AI agent architecture.
+
+## Run it
+
+By hand, in a window that stays open:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start-antigravity-proxy.ps1
+```
+
+Automatically at every Windows login, set up once:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-startup.ps1
+```
+
+Needs `node` and `ssh` on PATH, and `ssh bot-vps` must log in without a password prompt. The PC has to stay on; if it is off, Antigravity fails (Strict Proxy) and other providers are unaffected.
+
+## Check it
+
+Local proxy, from the PC:
+
+```powershell
+curl.exe -sS -m 15 -x http://127.0.0.1:18080 https://ipinfo.io/org
+```
+
+Through the tunnel, from the PC:
+
+```powershell
+ssh bot-vps "curl -sS -m 15 -x http://127.0.0.1:18081 https://ipinfo.io/org"
+```
+
+Both should print Telkom Indonesia. Tencent means the tunnel is down.
+
+## If something breaks
+
+- **Proxy CONNECT aborted:** the proxy on the PC is not running. Start the script again.
+- **Remote port forwarding failed:** port 18081 is taken on the VPS. Change it in the script and in the 9Router proxy URL together.
+- **403 is back:** the tunnel is down. Run the check before testing again.
+
+## Limits
+
+This is a stopgap. A lasting fix needs an always-on proxy at a normal ISP address. Antigravity through 9Router uses an unofficial OAuth session, so Google may limit or block the account. It is also not proven whether Google rejects the VPS because of the datacenter range or for another reason; the 403 body was never captured.
