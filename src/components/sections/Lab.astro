@@ -1,9 +1,8 @@
 ---
-import { getCollection } from "astro:content";
+import LabCollection from "../LabCollection.astro";
+import { getLabEntries } from "../../data/lab";
 
-const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 3);
+const entries = await getLabEntries();
 ---
 <section id="lab" data-section class="section-anchor" aria-labelledby="lab-heading">
   <div class="portfolio-section">
@@ -15,42 +14,6 @@ const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
         <p class="mt-5 max-w-lg text-muted">Technical case studies, experiments, and architectural decisions from real engineering challenges.</p>
       </div>
     </div>
-    <ul>
-      {labEntries.map((item, index) => {
-        const slug = item.id.replace(/\.mdx$/, "");
-        return (
-          <li class="index-row" data-reveal={`lab-${index}`}>
-            <div>
-              <p class="font-mono text-xs text-muted">{item.data.date.slice(0, 4)}</p>
-              <div class="mt-2 flex flex-wrap gap-2">
-                {item.data.tags.map((tag) => (
-                  <span class="font-mono text-xs text-muted border border-line rounded-sm px-2 py-0.5">{tag}</span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <a
-                href={`/lab/${slug}`}
-                class="group inline-block no-underline"
-              >
-                <h3 class="text-2xl md:text-3xl transition-colors group-hover:text-accent">
-                  {item.data.title}
-                  <span class="motion-arrow" aria-hidden="true"> ↗</span>
-                </h3>
-              </a>
-              <p class="mt-4 max-w-2xl text-muted leading-relaxed">{item.data.summary}</p>
-              <div class="mt-4 flex items-center gap-3">
-                <a
-                  href={`/lab/${slug}`}
-                  class="font-mono text-xs text-accent no-underline hover:underline"
-                >
-                  Read learning detail (Problem · Process · Decisions · Learnings) →
-                </a>
-              </div>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+    <LabCollection entries={entries} limited />
   </div>
 </section>

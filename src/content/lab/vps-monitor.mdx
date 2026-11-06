@@ -1,0 +1,24 @@
+---
+title: "A loopback dashboard for one VPS"
+summary: "Python standard library only. It reads /proc, systemd, and Hermes status, binds to 127.0.0.1, and is the thing that showed cron jobs still pinned to a dead provider."
+date: "2026-11-05"
+tags: ["Infrastructure", "AI Ops"]
+problem:
+  - "Six Hermes profiles and 9router run on one VPS. Failures showed up in logs, not on one page."
+  - "A cron job pinned to an old provider kept failing. The default model had already moved, and the job did not follow it."
+  - "A public dashboard would expose provider names, error text, and host state."
+process:
+  - "Served the page from a user systemd unit on 127.0.0.1:19999. The laptop opens it through an SSH local forward."
+  - "Read CPU, memory, disk, and unit state from /proc and systemd. Rejected any Host header that is not localhost."
+  - "Probed each 9router combo model every five minutes, and limited cron-failure alerts to the last 48 hours."
+decisions:
+  - "No extra packages and no outbound calls except to local ports."
+  - "Never read .env files, tokens, prompts, message bodies, or process command lines."
+  - "Show GiB so the numbers match df and free. Swap warns at 40% so this host does not stay red."
+learnings:
+  - "A job with its own provider and model ignores a later change to the profile default."
+  - "Do not run a cron job just to test it when that job messages someone else."
+  - "The dashboard is reachable only while the SSH forward is up."
+outcome: "The page stays on loopback and found eleven cron jobs still locked to a provider that no longer accepted the key."
+draft: false
+---
