@@ -1,5 +1,6 @@
 ---
 import LabCollection from "../LabCollection.astro";
+import T from "../T.astro";
 import { getLabEntries } from "../../data/lab";
 
 const entries = await getLabEntries();
@@ -10,8 +11,8 @@ const entries = await getLabEntries();
       <span class="section-rule" data-line-reveal="lab-line" aria-hidden="true"></span>
       <p class="section-kicker">03 / Lab</p>
       <div data-reveal="lab-heading">
-        <h2 id="lab-heading" class="section-title">Learning in<br />the open.</h2>
-        <p class="mt-5 max-w-lg text-muted">Technical case studies, experiments, and architectural decisions from real engineering challenges.</p>
+        <h2 id="lab-heading" class="section-title"><T en="Learning in the open." /></h2>
+        <p class="mt-5 max-w-lg text-muted"><T en="Technical case studies, experiments, and architectural decisions from real engineering challenges." /></p>
       </div>
     </div>
     <LabCollection entries={entries} limited />

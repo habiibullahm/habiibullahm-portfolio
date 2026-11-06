@@ -1,5 +1,6 @@
 ---
 import { safeExternalUrl, site } from "../../data/site";
+import T from "../T.astro";
 const links = [
   { label: "GitHub", href: safeExternalUrl(site.socials.github) },
   { label: "LinkedIn", href: safeExternalUrl(site.socials.linkedin) },
@@ -15,11 +16,14 @@ const links = [
     </div>
     <div class="hero-grid">
       <div class="hero-copy">
-        <h1 id="hero-heading" data-hero-reveal>AI &amp; Full-Stack<br class="hidden md:block" /> Engineer<span class="text-accent">.</span></h1>
-        <p class="hero-message" data-hero-reveal>I build practical AI assistants, full-stack applications, and useful tools.</p>
+        <h1 id="hero-heading" data-hero-reveal>
+          <span data-lang="id">Insinyur AI &amp; Full-Stack<span class="text-accent">.</span></span>
+          <span data-lang="en">AI &amp; Full-Stack<br class="hidden md:block" /> Engineer<span class="text-accent">.</span></span>
+        </h1>
+        <p class="hero-message" data-hero-reveal><T en="I build practical AI assistants, full-stack applications, and useful tools." /></p>
         <div class="mt-8 flex flex-wrap gap-3" data-hero-reveal>
-          <a href="#projects" class="motion-cta primary">Projects <span class="motion-arrow" aria-hidden="true">↘</span></a>
-          <a href="/resume" class="motion-cta">Resume <span class="motion-arrow" aria-hidden="true">↗</span></a>
+          <a href="#projects" class="motion-cta primary"><T en="Projects" /> <span class="motion-arrow" aria-hidden="true">↘</span></a>
+          <a href="/resume" class="motion-cta"><T en="Resume" /> <span class="motion-arrow" aria-hidden="true">↗</span></a>
         </div>
       </div>
       <figure class="hero-portrait" data-hero-reveal>
@@ -27,7 +31,7 @@ const links = [
       </figure>
     </div>
     <div class="hero-socials" data-hero-reveal>
-      {links.map(({label, href}) => href && <a href={href} target="_blank" rel="noopener noreferrer" class="text-link text-sm text-muted">{label} <span class="motion-arrow" aria-hidden="true">↗</span></a>)}
+      {links.map(({label, href}) => href && <a href={href} target="_blank" rel="noopener noreferrer" class="text-link text-sm text-muted"><T en={label} /> <span class="motion-arrow" aria-hidden="true">↗</span></a>)}
     </div>
   </div>
 </section>

@@ -1,0 +1,11 @@
+---
+import { indo } from "../i18n/id";
+
+interface Props {
+  en: string;
+}
+
+const { en } = Astro.props;
+---
+
+<span data-lang="id">{indo(en)}</span><span data-lang="en">{en}</span>

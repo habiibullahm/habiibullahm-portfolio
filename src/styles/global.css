@@ -18,6 +18,12 @@
 
 @layer base {
   html { scroll-behavior: auto; color-scheme: dark; }
+  html[data-lang="id"] [data-lang="en"],
+  html[data-lang="en"] [data-lang="id"] { display: none; }
+  .lang-switch { display: inline-flex; border: 1px solid var(--color-line); border-radius: 2px; }
+  .lang-switch button { min-height: 36px; min-width: 44px; padding: 0 10px; border: 0; background: none; color: var(--color-muted); font: 12px var(--font-mono); letter-spacing: .08em; }
+  html[data-lang="id"] .lang-switch button[data-set-lang="id"],
+  html[data-lang="en"] .lang-switch button[data-set-lang="en"] { color: var(--color-ink); background: var(--color-surface); }
   body { @apply bg-mist text-ink font-body antialiased; line-height: 1.65; }
   h1, h2, h3 { @apply font-display font-medium; letter-spacing: -0.045em; }
   button:not(:disabled) { cursor: pointer; }

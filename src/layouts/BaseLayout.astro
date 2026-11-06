@@ -2,11 +2,16 @@
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import ScrollTop from "../components/ScrollTop.astro";
+import T from "../components/T.astro";
 import { site } from "../data/site";
 
 interface Props {
+  /** English document title. Homepage falls back to the English SEO title. */
   title?: string;
+  /** Indonesian document title. Homepage falls back to the Indonesian SEO title. */
+  titleId?: string;
   description?: string;
+  descriptionId?: string;
   /** Skip-link target; must exist on the page (e.g. #main). */
   skipHref?: string;
   /** @deprecated Scroll-spy self-activates on the homepage via astro:page-load. */
@@ -14,10 +19,16 @@ interface Props {
 }
 
 const {
-  title = site.seo.title,
-  description = site.seo.description,
+  title,
+  titleId,
+  description,
+  descriptionId,
   skipHref = "#main",
 } = Astro.props;
+const titleEn = title ?? site.seo.title;
+const shownTitleId = titleId ?? (title ? title : site.seo.titleId);
+const descriptionEn = description ?? site.seo.description;
+const shownDescriptionId = descriptionId ?? (description ? description : site.seo.descriptionId);
 const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : Astro.url.href;
@@ -25,26 +36,46 @@ const socialImage = new URL("/images/projects/task-management.png", Astro.site ?
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="id" data-lang="id">
   <head>
+    <script is:inline>
+      (function () {
+        var lang = "id";
+        try {
+          if (localStorage.getItem("lang") === "en") lang = "en";
+        } catch (e) {}
+        document.documentElement.lang = lang;
+        document.documentElement.dataset.lang = lang;
+        document.addEventListener("DOMContentLoaded", function () {
+          var title = document.querySelector("title");
+          if (title && title.dataset.id && title.dataset.en) {
+            title.textContent = lang === "en" ? title.dataset.en : title.dataset.id;
+          }
+          var desc = document.querySelector('meta[name="description"]');
+          if (desc && desc.dataset.id && desc.dataset.en) {
+            desc.setAttribute("content", lang === "en" ? desc.dataset.en : desc.dataset.id);
+          }
+        });
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
+    <meta name="description" content={shownDescriptionId} data-id={shownDescriptionId} data-en={descriptionEn} />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="theme-color" content="#080808" />
     <link rel="canonical" href={canonical} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={shownTitleId} />
+    <meta property="og:description" content={shownDescriptionId} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={shownTitleId} />
+    <meta name="twitter:description" content={shownDescriptionId} />
     <meta name="twitter:image" content={socialImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title data-id={shownTitleId} data-en={titleEn}>{shownTitleId}</title>
     <ClientRouter />
     <script is:inline>
       (function () {
@@ -59,7 +90,7 @@ const socialImage = new URL("/images/projects/task-management.png", Astro.site ?
       href={skipHref}
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-mist"
     >
-      Skip to content
+      <T en="Skip to content" />
     </a>
     <slot />
     <ScrollTop />
@@ -67,6 +98,7 @@ const socialImage = new URL("/images/projects/task-management.png", Astro.site ?
       import "../scripts/hash-scroll.ts";
       import "../scripts/scroll-spy.ts";
       import "../scripts/motion.ts";
+      import "../scripts/lang.ts";
     </script>
   </body>
 </html>

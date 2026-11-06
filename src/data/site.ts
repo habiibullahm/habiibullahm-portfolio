@@ -23,8 +23,11 @@ export const site = {
   },
   seo: {
     title: "Muhammad Habiibullah — AI & Full-Stack Engineer",
+    titleId: "Muhammad Habiibullah — Insinyur AI & Full-Stack",
     description:
       "AI & Full-Stack Engineer building production-ready web applications, RAG systems, AI assistants, automation, and scalable backend systems.",
+    descriptionId:
+      "Insinyur AI dan full-stack. Membangun aplikasi web, sistem RAG, asisten AI, otomasi, dan backend.",
   },
   contactBlurb:
     "Currently a Full-Stack Developer at PT. Dans Multi Pro and open to opportunities in AI and full-stack engineering.",

@@ -1,5 +1,6 @@
 ---
 import ProjectCollection from "../ProjectCollection.astro";
+import T from "../T.astro";
 import { getProjects } from "../../data/projects";
 const projects = await getProjects();
 ---
@@ -10,8 +11,8 @@ const projects = await getProjects();
   <div class="portfolio-section">
     <div class="section-heading">
       <span class="section-rule" data-line-reveal="projects-line" aria-hidden="true"></span>
-      <p class="section-kicker">01 / Projects</p>
-      <div data-reveal="projects-heading"><h2 id="projects-heading" class="section-title">Projects</h2><p class="mt-5 max-w-lg text-muted">A collection of AI systems, web applications, and useful engineering tools.</p></div>
+      <p class="section-kicker">01 / <T en="Projects" /></p>
+      <div data-reveal="projects-heading"><h2 id="projects-heading" class="section-title"><T en="Projects" /></h2><p class="mt-5 max-w-lg text-muted"><T en="A collection of AI systems, web applications, and useful engineering tools." /></p></div>
     </div>
     <ProjectCollection projects={projects} limited />
   </div>

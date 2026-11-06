@@ -1,5 +1,6 @@
 ---
 import { safeExternalUrl, site } from "../../data/site";
+import T from "../T.astro";
 const links = [
   {label: "Email", href: safeExternalUrl(`mailto:${site.email}`)},
   {label: "LinkedIn", href: safeExternalUrl(site.socials.linkedin)},
@@ -9,9 +10,9 @@ const links = [
 <section id="contact" data-section class="section-anchor" aria-labelledby="contact-heading">
   <div class="portfolio-section contact-content">
     <span class="section-rule mb-10" data-line-reveal="contact-line" aria-hidden="true"></span>
-    <p class="section-kicker">05 / Contact</p>
-    <h2 id="contact-heading" data-reveal="contact-heading">Have a problem<br />worth solving<span class="text-accent">?</span></h2>
-    <div class="mt-10 grid gap-6 md:grid-cols-2 md:items-end"><p class="max-w-lg text-muted">{site.contactBlurb}</p><div class="flex flex-wrap gap-x-8 md:justify-end">{links.map(({label, href}) => href && <a href={href} target={label === "Email" ? undefined : "_blank"} rel={label === "Email" ? undefined : "noopener noreferrer"} class="text-link">{label}<span class="motion-arrow" aria-hidden="true">↗</span></a>)}</div></div>
+    <p class="section-kicker">05 / <T en="Contact" /></p>
+    <h2 id="contact-heading" data-reveal="contact-heading"><T en="Have a problem worth solving?" /></h2>
+    <div class="mt-10 grid gap-6 md:grid-cols-2 md:items-end"><p class="max-w-lg text-muted"><T en={site.contactBlurb} /></p><div class="flex flex-wrap gap-x-8 md:justify-end">{links.map(({label, href}) => href && <a href={href} target={label === "Email" ? undefined : "_blank"} rel={label === "Email" ? undefined : "noopener noreferrer"} class="text-link"><T en={label} /><span class="motion-arrow" aria-hidden="true">↗</span></a>)}</div></div>
   </div>
 </section>
 <style>

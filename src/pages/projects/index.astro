@@ -3,18 +3,19 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import ProjectCollection from "../../components/ProjectCollection.astro";
+import T from "../../components/T.astro";
 import { getProjects } from "../../data/projects";
 import { site } from "../../data/site";
 const projects = await getProjects();
 ---
-<BaseLayout title={`Projects · ${site.name}`} description="A collection of AI systems, web applications, and useful engineering tools.">
+<BaseLayout title={`Projects · ${site.name}`} titleId={`Proyek · ${site.name}`} description="A collection of AI systems, web applications, and useful engineering tools." descriptionId="Kumpulan sistem AI, aplikasi web, dan alat teknik yang dipakai.">
   <Header />
   <main id="main">
     <div class="portfolio-section archive-content">
       <div class="section-heading">
         <span class="section-rule" aria-hidden="true"></span>
-        <p class="section-kicker">Archive</p>
-        <div><h1 class="section-title">Projects</h1><p class="mt-5 max-w-lg text-muted">A collection of AI systems, web applications, and useful engineering tools.</p></div>
+        <p class="section-kicker"><T en="Archive" /></p>
+        <div><h1 class="section-title"><T en="Projects" /></h1><p class="mt-5 max-w-lg text-muted"><T en="A collection of AI systems, web applications, and useful engineering tools." /></p></div>
       </div>
       <ProjectCollection projects={projects} headingTag="h2" />
     </div>

@@ -10,6 +10,13 @@ export async function getLabEntries() {
   });
 }
 
+const tagId: Record<string, string> = {
+  Infrastructure: "Infrastruktur",
+  "AI Ops": "Operasi AI",
+  Billing: "Tagihan",
+  Networking: "Jaringan",
+};
+
 export function labFilters(entries: Awaited<ReturnType<typeof getLabEntries>>) {
   const tags: string[] = [];
   for (const entry of entries) {
@@ -17,5 +24,8 @@ export function labFilters(entries: Awaited<ReturnType<typeof getLabEntries>>) {
       if (!tags.includes(tag)) tags.push(tag);
     }
   }
-  return [{ id: "all", label: "All" }, ...tags.map((tag) => ({ id: tag, label: tag }))];
+  return [
+    { id: "all", label: "All", labelId: "Semua" },
+    ...tags.map((tag) => ({ id: tag, label: tag, labelId: tagId[tag] ?? tag })),
+  ];
 }

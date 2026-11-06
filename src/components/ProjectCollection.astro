@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getProjectMark, homeLimit, projectCategories } from "../data/projects";
+import { indo } from "../i18n/id";
+import T from "./T.astro";
 interface Props { projects: CollectionEntry<"projects">[]; limited?: boolean; headingTag?: "h2" | "h3"; }
 const { projects, limited = false, headingTag: Heading = "h3" } = Astro.props;
 const total = projects.length;
@@ -18,7 +20,7 @@ const cards = projects.map(({ id, data }) => ({
 
 <div data-project-collection-root data-scroll-to-results={limited ? "" : undefined} class="collection">
   <div class="filters" role="group" aria-label="Filter projects" data-project-filters hidden>
-    {projectCategories.map(({ id, label }) => <button type="button" class="filter" data-filter={id} aria-pressed={id === "all" ? "true" : "false"}>{label}</button>)}
+    {projectCategories.map(({ id, label, labelId }) => <button type="button" class="filter" data-filter={id} aria-pressed={id === "all" ? "true" : "false"}><span data-lang="id">{labelId}</span><span data-lang="en">{label}</span></button>)}
   </div>
   <p class="sr-only" role="status" aria-live="polite" data-filter-status></p>
   <ul data-project-collection data-filter="all" class:list={["project-list", { "is-limited": limited }]}>
@@ -30,16 +32,16 @@ const cards = projects.map(({ id, data }) => ({
             : <span class="card-mark monogram" aria-hidden="true">{card.monogram}</span>}
         </div>
         <div class="card-body">
-          <p class="card-type">{card.type}{card.caption && <span class="card-demo">{card.caption}</span>}</p>
+          <p class="card-type"><T en={card.type} />{card.caption && <span class="card-demo"><T en={card.caption} /></span>}</p>
           <Heading class="card-title"><a class="card-link" href={`/projects/${card.id}`}>{card.title}</a></Heading>
-          <p class="card-summary">{card.summary}</p>
-          <p class="card-capabilities">{card.capabilities}</p>
-          <span class="card-cta" aria-hidden="true">View project <span class="motion-arrow">↗</span></span>
+          <p class="card-summary"><T en={card.summary} /></p>
+          <p class="card-capabilities"><span data-lang="id">{card.capabilities.split(" · ").map((item) => indo(item)).join(" · ")}</span><span data-lang="en">{card.capabilities}</span></p>
+          <span class="card-cta" aria-hidden="true"><T en="View project" /> <span class="motion-arrow">↗</span></span>
         </div>
       </li>
     ))}
   </ul>
-  {limited && <a href="/projects" class:list={["text-link", "view-all", { "hide-mobile": total <= homeLimit.mobile, "hide-desktop": total <= homeLimit.desktop }]}>View all projects ({total}) <span class="motion-arrow" aria-hidden="true">↗</span></a>}
+  {limited && <a href="/projects" class:list={["text-link", "view-all", { "hide-mobile": total <= homeLimit.mobile, "hide-desktop": total <= homeLimit.desktop }]}><T en="View all projects" /> ({total}) <span class="motion-arrow" aria-hidden="true">↗</span></a>}
 </div>
 
 <style>
@@ -110,21 +112,32 @@ const cards = projects.map(({ id, data }) => ({
       const buttons = [...filters.querySelectorAll<HTMLButtonElement>("[data-filter]")];
       const cards = [...list.querySelectorAll<HTMLElement>("[data-project-card]")];
       filters.hidden = false;
+      const labelOf = (button: HTMLButtonElement) => {
+        const lang = document.documentElement.dataset.lang === "en" ? "en" : "id";
+        return button.querySelector(`[data-lang="${lang}"]`)?.textContent?.trim() ?? "";
+      };
       const apply = (filter: string, label: string) => {
         list.dataset.filter = filter;
         cards.forEach(card => { card.hidden = filter !== "all" && card.dataset.category !== filter; });
         buttons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.filter === filter)));
         if (status) {
           const shown = cards.filter(card => getComputedStyle(card).display !== "none").length;
-          status.textContent = `Showing ${shown} ${filter === "all" ? "" : `${label} `}project${shown === 1 ? "" : "s"}`;
+          const english = document.documentElement.dataset.lang === "en";
+          const noun = english ? `project${shown === 1 ? "" : "s"}` : "proyek";
+          const showing = english ? "Showing" : "Menampilkan";
+          status.textContent = `${showing} ${shown} ${filter === "all" ? "" : `${label} `}${noun}`;
         }
         if (!reduce.matches) list.animate([{ opacity: 0.3 }, { opacity: 1 }], { duration: 200, easing: "ease-out" });
         if (root.hasAttribute("data-scroll-to-results")) requestAnimationFrame(() => scrollToResults(filters));
       };
       buttons.forEach(button => button.addEventListener("click", () => {
         if (button.getAttribute("aria-pressed") === "true") return;
-        apply(button.dataset.filter ?? "all", button.textContent?.trim() ?? "");
+        apply(button.dataset.filter ?? "all", labelOf(button));
       }, { signal }));
+      document.addEventListener("lang-change", () => {
+        const current = buttons.find((button) => button.getAttribute("aria-pressed") === "true");
+        if (current) apply(current.dataset.filter ?? "all", labelOf(current));
+      }, { signal });
     });
   }
   document.addEventListener("astro:page-load", initProjectFilters);

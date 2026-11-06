@@ -1,6 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import LangSwitch from "../../components/LangSwitch.astro";
+import T from "../../components/T.astro";
 import { safeExternalUrl, safeSitePath, site } from "../../data/site";
 
 export async function getStaticPaths() {
@@ -90,13 +92,16 @@ const backHref = "/#projects";
   <header class="sticky top-0 z-40 border-b border-line bg-mist">
     <div class="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-5 md:px-6">
       <a href="/#home" class="font-display text-sm font-semibold text-ink no-underline hover:text-accent">{site.name}</a>
-      <a href={backHref} class="inline-flex min-h-11 items-center text-sm text-muted no-underline hover:text-accent">← Projects</a>
+      <div class="flex items-center gap-3">
+        <LangSwitch />
+        <a href={backHref} class="inline-flex min-h-11 items-center text-sm text-muted no-underline hover:text-accent"><T en="← Projects" /></a>
+      </div>
     </div>
   </header>
 
   <main id="main" class="project-detail mx-auto max-w-6xl px-5 py-12 md:px-12 md:py-20">
-    <p class="text-sm text-muted">{sectionLabel}</p>
-    {data.showcase?.caption && <p class="mt-3 text-sm text-accent">{data.showcase.caption}</p>}
+    <p class="text-sm text-muted"><T en={sectionLabel} /></p>
+    {data.showcase?.caption && <p class="mt-3 text-sm text-accent"><T en={data.showcase.caption} /></p>}
     <div class="mt-5 flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
       {
         imageSrc && (
@@ -117,8 +122,8 @@ const backHref = "/#projects";
         <h1 class="text-3xl leading-tight sm:text-4xl md:text-5xl">{data.title}</h1>
         <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{data.outcome}</p>
         <dl class="mt-8 grid max-w-2xl gap-4 border-y border-line py-5 sm:grid-cols-2">
-          <div><dt class="font-mono text-[10px] tracking-widest text-muted">TYPE</dt><dd class="mt-1 text-sm text-ink">{data.client} · {data.domain}</dd></div>
-          <div><dt class="font-mono text-[10px] tracking-widest text-muted">STACK / CAPABILITIES</dt><dd class="mt-2"><ul class="flex flex-wrap gap-2">{data.stack.map((item) => <li class="rounded-md border border-line px-2.5 py-1 text-xs text-ink">{item}</li>)}</ul></dd></div>
+          <div><dt class="font-mono text-[10px] tracking-widest text-muted"><T en="TYPE" /></dt><dd class="mt-1 text-sm text-ink">{data.client} · {data.domain}</dd></div>
+          <div><dt class="font-mono text-[10px] tracking-widest text-muted"><T en="STACK / CAPABILITIES" /></dt><dd class="mt-2"><ul class="flex flex-wrap gap-2">{data.stack.map((item) => <li class="rounded-md border border-line px-2.5 py-1 text-xs text-ink">{item}</li>)}</ul></dd></div>
         </dl>
         <div class="mt-6 flex flex-wrap gap-5 font-display text-sm">
           {
@@ -129,7 +134,7 @@ const backHref = "/#projects";
                 rel="noopener noreferrer"
                 class="inline-flex min-h-11 items-center text-accent no-underline hover:underline"
               >
-                Live demo ↗
+                <T en="Live demo" /> ↗
               </a>
             )
           }
@@ -141,7 +146,7 @@ const backHref = "/#projects";
                 rel="noopener noreferrer"
                 class="inline-flex min-h-11 items-center text-accent no-underline hover:underline"
               >
-                Code ↗
+                <T en="Code" /> ↗
               </a>
             )
           }
@@ -150,18 +155,18 @@ const backHref = "/#projects";
     </div>
 
     <div class="mt-16 grid gap-12 border-t border-line pt-12 md:grid-cols-[13rem_1fr] md:gap-16">
-      <p class="font-mono text-[11px] tracking-widest text-accent">PROJECT NOTES</p>
+      <p class="font-mono text-[11px] tracking-widest text-accent"><T en="PROJECT NOTES" /></p>
       <div class="max-w-3xl space-y-10">
         <section>
-          <h2 class="font-display text-2xl">Why it exists</h2>
+          <h2 class="font-display text-2xl"><T en="Why it exists" /></h2>
           <p class="mt-3 leading-relaxed text-muted">{data.why}</p>
         </section>
         <section>
-          <h2 class="font-display text-2xl">What it does</h2>
+          <h2 class="font-display text-2xl"><T en="What it does" /></h2>
           <p class="mt-3 leading-relaxed text-muted">{data.what}</p>
         </section>
         <section>
-          <h2 class="font-display text-2xl">How it works</h2>
+          <h2 class="font-display text-2xl"><T en="How it works" /></h2>
           <p class="mt-3 leading-relaxed text-muted">{data.how}</p>
           {
             data.flow && data.flow.length > 0 && (
@@ -174,7 +179,7 @@ const backHref = "/#projects";
         {
           data.decision && (
             <section>
-              <h2 class="font-display text-2xl">A key decision</h2>
+              <h2 class="font-display text-2xl"><T en="A key decision" /></h2>
               <p class="mt-3 border-l-2 border-accent pl-4 leading-relaxed text-muted">{data.decision}</p>
             </section>
           )
@@ -182,7 +187,7 @@ const backHref = "/#projects";
         {
           data.evaluation && (
             <section>
-              <h2 class="font-display text-2xl">How well it works</h2>
+              <h2 class="font-display text-2xl"><T en="How well it works" /></h2>
               <p class="mt-3 leading-relaxed text-muted">{data.evaluation}</p>
             </section>
           )
@@ -193,13 +198,13 @@ const backHref = "/#projects";
     {
       previews.length > 0 && (
         <section class="mt-16 border-t border-line pt-12">
-          <p class="font-mono text-[11px] tracking-widest text-accent">LIVE PRODUCT PREVIEW</p>
+          <p class="font-mono text-[11px] tracking-widest text-accent"><T en="LIVE PRODUCT PREVIEW" /></p>
           <h2 class="mt-2 font-display text-xl">
-            {otherPreviews.some((item) => item.type === "video")
+            <T en={otherPreviews.some((item) => item.type === "video")
               ? "Interactive demo"
               : otherPreviews.some((item) => item.type === "embed")
                 ? "Interactive UI"
-                : "Product UI"}
+                : "Product UI"} />
           </h2>
           <ul class={previewListClass}>
             {otherPreviews.map((item) =>
@@ -433,7 +438,7 @@ const backHref = "/#projects";
         href={backHref}
         class="inline-flex min-h-11 items-center text-sm text-accent no-underline hover:underline"
       >
-        Back to projects
+        <T en="Back to projects" />
       </a>
     </div>
   </footer>

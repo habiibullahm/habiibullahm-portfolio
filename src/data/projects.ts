@@ -2,10 +2,10 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { safeSitePath } from "./site";
 
 export const projectCategories = [
-  { id: "all", label: "All" },
-  { id: "ai", label: "AI" },
-  { id: "web", label: "Web" },
-  { id: "tools", label: "Tools" },
+  { id: "all", label: "All", labelId: "Semua" },
+  { id: "ai", label: "AI", labelId: "AI" },
+  { id: "web", label: "Web", labelId: "Web" },
+  { id: "tools", label: "Tools", labelId: "Alat" },
 ] as const;
 
 /** How many projects the unfiltered homepage "All" view shows per breakpoint. */
