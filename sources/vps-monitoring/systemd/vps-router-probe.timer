@@ -1,0 +1,13 @@
+[Unit]
+Description=Run the 9Router model probe every 5 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+OnCalendar=*:0/5
+AccuracySec=20s
+Persistent=false
+Unit=vps-router-probe.service
+
+[Install]
+WantedBy=timers.target

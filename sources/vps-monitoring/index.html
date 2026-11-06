@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VPS Monitor</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">V</div>
+      <div>
+        <h1>VPS Monitor</h1>
+        <div class="sub">Private dashboard, SSH tunnel only</div>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="badge" id="bHost"><span class="dot"></span><span id="bHostText">Connecting</span></span>
+      <span class="badge" id="bTime">No data yet</span>
+      <button class="btn" id="btnPause" type="button">Pause</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner loading" role="status" aria-live="polite"><span id="bannerText">Loading metrics from the host.</span></div>
+
+  <section aria-labelledby="h-health">
+    <h2 class="sec" id="h-health">Overall health</h2>
+    <div class="grid g4">
+      <div class="card"><h3>CPU</h3>
+        <div class="row"><span class="val mono" id="cpuVal">0%</span><span class="hint" id="cpuHint"></span></div>
+        <div class="sub2" id="cpuSub"></div>
+        <div class="progress" id="cpuBar"><span></span></div></div>
+      <div class="card"><h3>RAM</h3>
+        <div class="row"><span class="val mono" id="ramVal">0</span></div>
+        <div class="sub2" id="ramSub"></div>
+        <div class="progress" id="ramBar"><span></span></div></div>
+      <div class="card"><h3>Disk (/)</h3>
+        <div class="row"><span class="val mono" id="diskVal">0</span></div>
+        <div class="sub2" id="diskSub"></div>
+        <div class="progress" id="diskBar"><span></span></div></div>
+      <div class="card"><h3>Swap</h3>
+        <div class="row"><span class="val mono" id="swapVal">0</span></div>
+        <div class="sub2" id="swapSub"></div>
+        <div class="progress" id="swapBar"><span></span></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-alerts" class="gap">
+    <h2 class="sec" id="h-alerts">Alerts</h2>
+    <div class="card" id="alerts"></div>
+  </section>
+
+  <section aria-labelledby="h-svc" class="gap">
+    <h2 class="sec" id="h-svc">Services</h2>
+    <div class="card scroll">
+      <table class="tbl" aria-label="Service status">
+        <thead><tr><th>Service</th><th>Status</th><th>Checked via</th><th>Notes</th></tr></thead>
+        <tbody id="svcBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-router" class="gap">
+    <h2 class="sec" id="h-router">9Router models</h2>
+    <div class="card" style="margin-bottom:12px">
+      <div class="row"><span class="val mono" id="routerVal">no probe yet</span><span class="hint" id="routerHint"></span></div>
+      <div class="sub2" id="routerSub"></div>
+    </div>
+    <div class="card scroll">
+      <table class="tbl" aria-label="9Router model live status">
+        <thead><tr><th>Model</th><th>Status</th><th class="num">Latency</th><th>Error</th></tr></thead>
+        <tbody id="routerBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="gap grid g2">
+    <div class="card scroll">
+      <h3>9Router providers</h3>
+      <table class="tbl" aria-label="9Router providers">
+        <thead><tr><th>Provider</th><th>Status</th><th>Proxy</th><th>Error</th></tr></thead>
+        <tbody id="rpBody"></tbody>
+      </table>
+    </div>
+    <div class="card scroll">
+      <h3>9Router combos</h3>
+      <table class="tbl" aria-label="9Router combos">
+        <thead><tr><th>Combo</th><th class="num">Models</th><th class="num">Failing</th></tr></thead>
+        <tbody id="rcBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="gap grid g2">
+    <div class="card scroll">
+      <h3>Hermes platforms</h3>
+      <table class="tbl" aria-label="Hermes platforms">
+        <thead><tr><th>Profile</th><th>Platform</th><th>State</th></tr></thead>
+        <tbody id="plBody"></tbody>
+      </table>
+    </div>
+    <div class="card scroll">
+      <h3>Cron jobs by profile</h3>
+      <table class="tbl" aria-label="Cron jobs">
+        <thead><tr><th>Profile</th><th class="num">Total</th><th class="num">Active</th><th class="num">Paused</th><th class="num">Failing</th></tr></thead>
+        <tbody id="cronBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="gap grid g2">
+    <div class="card">
+      <h3>Network</h3>
+      <div class="row"><span class="mono" id="netNow">not measured</span></div>
+      <div class="legend"><span><i class="k l1"></i>Download</span><span><i class="k l2"></i>Upload</span></div>
+      <div class="chart" id="chNet"></div>
+    </div>
+    <div class="card">
+      <h3>Disk I/O</h3>
+      <div class="row"><span class="mono" id="ioNow">not measured</span></div>
+      <div class="legend"><span><i class="k l1"></i>Read</span><span><i class="k l2"></i>Write</span></div>
+      <div class="chart" id="chIo"></div>
+    </div>
+  </section>
+
+  <section class="gap">
+    <h2 class="sec">Resource history, last hour</h2>
+    <div class="card">
+      <div class="legend"><span><i class="k l1"></i>CPU %</span><span><i class="k l2"></i>RAM used %</span><span><i class="k l3"></i>Swap used %</span></div>
+      <div class="chart tall" id="chRes"></div>
+    </div>
+  </section>
+
+  <section class="gap grid g2">
+    <div class="card scroll">
+      <h3>Top memory users</h3>
+      <table class="tbl" aria-label="Top memory users">
+        <thead><tr><th>Process</th><th class="num">Count</th><th class="num">Memory</th></tr></thead>
+        <tbody id="procBody"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Recent events</h3>
+      <div id="events"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>VPS Monitor, private, listens on 127.0.0.1 only</span>
+    <span id="footInfo">Independent of Hermes</span>
+  </footer>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

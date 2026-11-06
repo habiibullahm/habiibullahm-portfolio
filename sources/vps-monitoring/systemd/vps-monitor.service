@@ -1,0 +1,14 @@
+[Unit]
+Description=VPS monitor (private, 127.0.0.1:19999)
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 -I /home/ubuntu/vps-monitor/monitor.py
+Restart=on-failure
+RestartSec=5
+MemoryMax=80M
+Nice=10
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=default.target

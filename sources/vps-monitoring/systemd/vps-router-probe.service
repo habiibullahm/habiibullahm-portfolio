@@ -1,0 +1,9 @@
+[Unit]
+Description=Probe 9Router model health for the VPS monitor
+After=network.target 9router.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -I /home/ubuntu/vps-monitor/router_probe.py
+Nice=15
+NoNewPrivileges=yes

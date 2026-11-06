@@ -1,0 +1,5 @@
+# Runtime state written by router_probe.py. Contains provider metadata, never commit it.
+router_state.json
+router_state.tmp
+*.pyc
+__pycache__/

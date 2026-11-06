@@ -1,0 +1,6 @@
+name: juragan-recap-ingest
+version: 0.1.0
+description: "Listen-only recap group: log recap messages pasted in the approved WhatsApp group to the Sheet, no reply."
+author: "local"
+provides_hooks:
+  - pre_gateway_dispatch
