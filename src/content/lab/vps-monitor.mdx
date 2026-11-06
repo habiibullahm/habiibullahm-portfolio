@@ -1,0 +1,28 @@
+---
+title: "A loopback dashboard for one VPS"
+summary: "Python standard library only. It reads /proc, systemd, and Hermes status, binds to 127.0.0.1, and is the thing that showed cron jobs still pinned to a dead provider."
+date: "2026-11-05"
+tags: ["Infrastructure", "AI Ops"]
+problem:
+  - "Six Hermes profiles and 9router run on one VPS. Failures showed up in logs, not on one page."
+  - "A cron job pinned to an old provider kept failing. The default model had already moved, and the job did not follow it."
+  - "A public dashboard would expose provider names, error text, and host state."
+process:
+  - "Served the page from a user systemd unit on 127.0.0.1:19999. The laptop opens it through an SSH local forward."
+  - "Read CPU, load, RAM, disk, swap, and I/O from /proc. Read unit state and listening ports from systemd. Read Hermes platform state from status files."
+  - "Rejected any Host header that is not localhost. The page inserts text with textContent. Thresholds live in one table, and the UI uses the level the API already computed."
+  - "Probed each 9router combo model with a tiny completion every five minutes. The probe reads the local key and writes only model name, status, latency, and error text."
+  - "Marked services that are supposed to be down so they do not stay red. Limited cron-failure alerts to the last 48 hours, because a failure streak stays until the job runs again."
+decisions:
+  - "No extra packages and no outbound calls except to local ports."
+  - "Never read .env files, tokens, prompts, message bodies, or process command lines."
+  - "Swap warns at 40% and goes critical at 80%. On this host, 50% used would have stayed red forever."
+  - "Show GiB so the numbers match df and free. Decimal GB made the disk look like 63 when the tools said 59."
+learnings:
+  - "A job with its own provider and model ignores a later change to the profile default. Check those two fields before blaming the gateway."
+  - "Do not run a cron job just to test it when that job messages someone else. Wait for the next schedule."
+  - "History kept only in memory piles up on the right edge of a chart after a restart, unless the chart scales to the samples it actually has."
+  - "The dashboard is reachable only while the SSH forward is up. That is the point."
+outcome: "The page stays on loopback and found eleven cron jobs still locked to a provider that no longer accepted the key. Those jobs were pointed at the 9router free-tier model without changing their schedule."
+draft: false
+---
