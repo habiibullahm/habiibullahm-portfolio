@@ -1,29 +1,24 @@
 ---
 title: "Six Hermes agents on one VPS"
-summary: "What stayed true after moving six Grok agents onto one Hermes install: profiles do not share secrets, a model list is not proof of a key, and WhatsApp tool changes miss the bot unless the platform is named."
+summary: "Six profiles on one gateway, a key in each profile .env, and a loopback dashboard that found cron jobs still pinned to a dead provider."
 date: "2026-11-04"
 tags: ["Infrastructure", "AI Ops"]
 problem:
-  - "Hermes Desktop is only the UI. The agents run on the VPS, with their own config, memory, and browser."
-  - "A new profile copies the model settings from default and leaves .env empty, so the first WhatsApp reply fails with no API key."
-  - "A global shell variable with the same name is ignored. The gateway reads the key from that profile's .env."
+  - "Hermes Desktop is only the UI. The agents, their memory, and their browser run on the VPS."
+  - "A new profile copies the model settings and leaves .env empty, so the first reply fails with no API key."
+  - "Cron failures and host state showed up in logs, not on one page."
 process:
-  - "Kept one Hermes install and one gateway for every profile. A new profile is served without a gateway restart."
-  - "Put the 9router key in each profile .env. After an .env edit, restarted the user gateway service so the process read it."
-  - "Sent a normal text message to each bot. Hermes ignores /start, so a bot that only received /start looked dead."
-  - "Disabled the terminal tool for WhatsApp with --platform whatsapp. The same command without --platform only changes the CLI tool list."
-  - "Checked /v1/models and a real chat call separately. The model list can return 200 with no key. Chat returns 401 until the key is valid."
+  - "Kept one gateway for every profile. Put the 9router key in each profile .env, then restarted the user gateway service."
+  - "Changed WhatsApp tools with --platform whatsapp. Hermes ignores /start, so a bot that only received /start looked dead."
+  - "Served a Python dashboard on 127.0.0.1:19999 through an SSH tunnel. It reads /proc and systemd, and it does not read .env files or message text."
 decisions:
-  - "One gateway, separate profile folders. Memory and sessions stay per profile. The Linux user is still shared, so a profile is not an OS sandbox."
-  - "Do not copy a paid fallback key into a new profile."
-  - "Read a SOUL file before installing it. A Grok-era SOUL told an agent to open WhatsApp Web and send a QR."
-  - "Rename of the default profile only changes the display name. The desktop still shows the host name."
+  - "One gateway, separate profile folders. A profile is not an OS sandbox, because the Linux user is shared."
+  - "Do not copy a paid fallback key into a new profile. Read a SOUL file before installing it."
+  - "The dashboard stays on loopback. Swap warns at 40% so this host does not stay red."
 learnings:
-  - "Non-interactive SSH does not load the Hermes path. bash -lc is the command that finds hermes."
-  - "PowerShell pipes into SSH add a BOM and CRLF. A base64 script avoids that."
-  - "Reasoning models spend the token budget on thinking. A small max token limit returns an empty answer."
-  - "WhatsApp has no read-only mode. A message the bridge accepts gets a reply. The bridge only forwards senders on the allow list."
-  - "display.show_reasoning is the config key that hides the thinking block. display.reasoning is rejected."
-outcome: "Six profiles run on one VPS gateway. Each profile has its own .env. WhatsApp tool changes name the platform, or they do not apply to the bot."
+  - "Non-interactive SSH needs bash -lc to find hermes. A cron job pinned to its own provider ignores the profile default."
+  - "display.show_reasoning is the config key. WhatsApp has no read-only mode, so an accepted message gets a reply."
+  - "Show GiB so the numbers match df and free. Do not run a cron job that messages someone just to test it."
+outcome: "Six profiles run on one gateway. The loopback page found eleven cron jobs still locked to a provider that no longer accepted the key."
 draft: false
 ---

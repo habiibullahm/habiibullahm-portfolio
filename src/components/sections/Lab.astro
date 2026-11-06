@@ -2,7 +2,8 @@
 import { getCollection } from "astro:content";
 
 const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
 ---
 <section id="lab" data-section class="section-anchor" aria-labelledby="lab-heading">
   <div class="portfolio-section">
