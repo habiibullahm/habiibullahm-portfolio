@@ -1,0 +1,33 @@
+---
+title: "NibieRouter from a SumoRouter instance"
+summary: "A SumoRouter app on SumoPod, with its own credit wallet, a sandbox QRIS proof, and a custom hostname that Cloudflare will not proxy until SumoPod accepts the name."
+date: "2026-11-07"
+tags: ["Infrastructure", "AI Ops", "Billing"]
+problem:
+  - "Quick Start prints http://localhost:3000/v1. This instance answers on https://sr-44e28f.jkt11.sumopod.my.id/v1."
+  - "A Sumopod AI top-up does not fill NibieRouter credit. A key capped at $0.00 returns 402 while the account still has $0.55."
+  - "A webhook URL with a trailing dot returns 404 unknown environment."
+  - "router.nibie.app CNAME to the SumoPod host returns Cloudflare error 1014, and SumoPod Custom Domain returns service not found."
+process:
+  - "Confirmed GET /v1/models returns 200. The only provider is Sumopod AI."
+  - "Cleared the nibie key credit cap so the key can spend the account balance."
+  - "Set Site URL to the SumoPod host, saved the sandbox webhook without a trailing dot, and matched the signing secret and webhook token. Save and Test returned 200."
+  - "Created a Rp 10,000 sandbox top-up and completed it with Simulate Payment. Order SR-20261106-824607E84723 credited about $0.55. The checkout host was sumo.sandbox.pymnt.global."
+  - "Pointed 9router on the VPS at this base URL with prefix nibierouter and model deepseek-v4.1-flash-1017."
+  - "Registered nibie.app at Cloudflare and added a DNS-only CNAME for router. The proxied record and the DNS-only record both hit error 1014."
+  - "Added an admin MCP server in the Cursor user config. get_system_info returned version 1.0.14."
+decisions:
+  - "Keep https://sr-44e28f.jkt11.sumopod.my.id as the machine address until SumoPod enables custom domain on this SumoRouter service."
+  - "Customers should eventually open https://router.nibie.app and call https://router.nibie.app/v1. Do not change Site URL until that host serves the app."
+  - "nibie.app is the company name. nibie.com was already registered by someone else."
+  - "Sandbox proved the payment path. Live waits for KYC. Sandbox keys do not carry over. The Live webhook path ends in /live."
+  - "Leave email off. There is no verified sender domain."
+learnings:
+  - "Test /v1/models on the host you will ship. The sample base URL in the docs is not this instance."
+  - "402 has two causes. this API key has reached its credit limit is the key cap, not an empty Sumopod AI balance."
+  - "A trailing dot on the webhook path is a different environment name."
+  - "A CNAME to a SumoPod hostname is not a custom domain. SumoPod has to accept the name, and this service has that switch off."
+  - "NibieRouter credit and Sumopod AI credit are spent in that order. One balance does not refill the other."
+outcome: "The app, model key, sandbox top-up, 9router prefix, and admin MCP work on the SumoPod URL. router.nibie.app and Live QRIS do not."
+draft: false
+---

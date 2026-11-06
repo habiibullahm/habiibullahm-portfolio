@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# personal CV and audio, not for the public repo
+sources/habiibullahm/
