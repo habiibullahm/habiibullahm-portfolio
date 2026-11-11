@@ -8,7 +8,7 @@
 $VpsHost    = 'bot-vps'     # ssh config alias for the VPS
 $LocalPort  = 18080         # proxy listens here on this PC (loopback only)
 $RemotePort = 18081         # tunnel port on the VPS loopback; must match the 9Router pool URL
-$ProxyJs    = Join-Path $PSScriptRoot 'connect-proxy.js'
+$ProxyJs    = Join-Path $PSScriptRoot 'connect-proxy.cjs'   # .cjs: repo package.json has "type": "module"
 
 if (-not (Test-Path $ProxyJs)) { throw "Missing $ProxyJs" }
 

@@ -16,7 +16,7 @@ Agent Hermes (VPS) --> 9Router (VPS, :20128) --> proxy pool --> tunnel SSH --> p
 
 - 9Router jalan di VPS (port 20128) dan akun Antigravity sudah login di sana (Providers -> Antigravity).
 - Proxy pool "Home ISP via tunnel" sudah dibuat di 9Router: `http://127.0.0.1:18081`, **Strict Proxy ON**, dan sudah dipasang ke koneksi Antigravity (Providers -> Antigravity -> Apply Proxy).
-- Folder ini (`antigravity-proxy`) ada di PC kamu: `connect-proxy.js` dan `start-antigravity-proxy.ps1`.
+- Folder ini (`antigravity-proxy`) ada di PC kamu: `connect-proxy.cjs` dan `start-antigravity-proxy.ps1`.
 
 ## 3. Jalankan proxy + tunnel (wajib, tiap kali mau dipakai)
 
@@ -130,7 +130,7 @@ systemctl --user restart hermes-gateway
 
 ## 8. Keamanan dan batasan
 
-- Proxy hanya mengizinkan host Google (`*.googleapis.com`, `*.google.com`), `ipinfo.io`, serta `codebuddy.ai`, `tencent.com`, `minimax` (lihat `connect-proxy.js`), di port 443. Hanya listen di loopback.
+- Proxy hanya mengizinkan host Google (`*.googleapis.com`, `*.google.com`), `ipinfo.io`, serta `codebuddy.ai`, `tencent.com`, `minimax` (lihat `connect-proxy.cjs`), di port 443. Hanya listen di loopback.
 - Jangan menempel API key, token, atau email akun di chat atau file ini.
 - Ini solusi **sementara**: bergantung pada PC kamu yang menyala. Untuk permanen, pakai proxy yang selalu hidup di IP ISP biasa (bukan datacenter).
 - Antigravity lewat 9Router memakai sesi OAuth yang tidak resmi untuk proxy; akun bisa dibatasi atau diblokir oleh Google (peringatan juga muncul di dashboard 9Router).

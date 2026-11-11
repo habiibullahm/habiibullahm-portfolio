@@ -7,13 +7,13 @@ Indonesian guide (Hermes on the VPS + local PC): [PANDUAN.md](PANDUAN.md)
 ## Files
 | File | Purpose |
 |---|---|
-| `connect-proxy.js` | HTTP CONNECT proxy on `127.0.0.1:18080`. Port 443 only, allowlisted hosts, no payload logging. |
+| `connect-proxy.cjs` | HTTP CONNECT proxy on `127.0.0.1:18080`. Port 443 only, allowlisted hosts, no payload logging. |
 | `start-antigravity-proxy.ps1` | Starts the proxy and keeps an SSH reverse tunnel (VPS `127.0.0.1:18081` -> PC `127.0.0.1:18080`); retries every 10 s. |
 | `run-hidden.vbs` | Launches the start script with no visible window. |
 | `install-startup.ps1` | Creates a Startup-folder shortcut so everything starts at Windows logon. |
 | `uninstall-startup.ps1` | Removes that shortcut. |
 
-Allowlist (in `connect-proxy.js`): `*.googleapis.com`, `*.google.com`, `ipinfo.io`, `*.codebuddy.ai`, `*.tencent.com`, `minimax(i).(com|cn|io)`.
+Allowlist (in `connect-proxy.cjs`): `*.googleapis.com`, `*.google.com`, `ipinfo.io`, `*.codebuddy.ai`, `*.tencent.com`, `minimax(i).(com|cn|io)`.
 
 9Router (already configured on the VPS): proxy pool "Home ISP via tunnel" = `http://127.0.0.1:18081`, Strict Proxy on, assigned to the Antigravity connection only.
 
