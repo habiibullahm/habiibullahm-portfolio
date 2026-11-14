@@ -9,7 +9,12 @@ const ALLOW = [
   /^ipinfo\.io$/,
   /(^|\.)codebuddy\.ai$/,
   /(^|\.)tencent\.com$/,
-  /(^|\.)minimax(i)?\.(com|cn|io)$/
+  /(^|\.)minimax(i)?\.(com|cn|io)$/,
+  /(^|\.)deepseek\.com$/,
+  /(^|\.)openrouter\.ai$/,
+  /(^|\.)groq\.com$/,
+  /(^|\.)anthropic\.com$/,
+  /(^|\.)opencode\.ai$/
 ];
 
 const server = http.createServer((req, res) => {
@@ -22,19 +27,26 @@ server.on('connect', (req, clientSocket, head) => {
   const port = Number(portStr || 443);
   if (port !== 443 || !ALLOW.some((re) => re.test(host))) {
     clientSocket.end('HTTP/1.1 403 Forbidden\r\n\r\n');
-    console.log('blocked', host, port);
+    console.log(new Date().toISOString(), 'blocked', host, port);
     return;
   }
-  const upstream = net.connect(port, host, () => {
+  const upstream = net.connect({ port, host, timeout: 10000 });
+  // A CONNECT that never completes is worse than a failed one: 9Router waits forever.
+  upstream.on('timeout', () => {
+    console.log(new Date().toISOString(), 'timeout', host);
+    clientSocket.end('HTTP/1.1 504 Gateway Timeout\r\n\r\n');
+    upstream.destroy();
+  });
+  upstream.on('connect', () => {
     clientSocket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
     if (head && head.length) upstream.write(head);
     upstream.pipe(clientSocket);
     clientSocket.pipe(upstream);
   });
   const close = () => { upstream.destroy(); clientSocket.destroy(); };
-  upstream.on('error', close);
+  upstream.on('error', (e) => { console.log(new Date().toISOString(), 'upstream error', host, e.code || e.message); close(); });
   clientSocket.on('error', close);
-  console.log('tunnel', host);
+  console.log(new Date().toISOString(), 'tunnel', host);
 });
 
 server.listen(PORT, '127.0.0.1', () => console.log('proxy listening on 127.0.0.1:' + PORT));
