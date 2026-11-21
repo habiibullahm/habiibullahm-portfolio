@@ -116,7 +116,8 @@ curl.exe -s http://127.0.0.1:20128/v1/chat/completions -H "Authorization: Bearer
 |---|---|---|
 | `[403]: HTTP 403` di Console Log | Proxy/tunnel mati, atau permintaan lolos lewat IP VPS | Jalankan ulang bagian 3, cek IP lewat perintah `ipinfo` |
 | `Proxy CONNECT aborted` (dari VPS) | Proxy lokal di PC tidak jalan | Jalankan `start-antigravity-proxy.ps1` |
-| `remote port forwarding failed for listen port` | Port itu sudah dipakai di VPS | Ganti port tunnel di script **dan** URL pool 9Router (harus sama) |
+| `remote port forwarding failed for listen port` | Port itu sudah dipakai di VPS | Script sudah membersihkannya otomatis lewat `Clear-RemotePort` (`sudo -n fuser`/`ss`); kalau masih gagal, cek user ssh punya NOPASSWD sudo, atau ganti port tunnel **dan** URL pool 9Router (harus sama) |
+| Log supervisor: `cleanup ... returned exit 127` | Perintah dikirim lewat pipeline PowerShell, CRLF ikut terkirim sehingga bash Linux menjalankan `true\r` | Kirim sebagai argumen ssh (`ssh $VpsHost $cmd`), jangan `$cmd \| ssh ...` — jangan pakai `tr -d "\r"` (menghapus huruf `r`, jadi `grep` → `gep`) |
 | `User location is not supported for the API use` (400) | Itu rute `gemini/...` (Gemini API biasa) dari IP VPS, bukan Antigravity | Jangan pakai rute itu dari VPS tanpa proxy |
 | Model terkunci "reset after 2m" | Satu 403 mengunci model 2 menit | Tunggu, jangan klik Test berulang-ulang |
 | Agent tidak berubah model | Gateway belum di-restart | `systemctl --user restart hermes-gateway` |

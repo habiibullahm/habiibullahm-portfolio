@@ -13,7 +13,7 @@
 #    at startup.
 #  - Never silence ssh: the reason a tunnel refuses to come up is printed on its stderr.
 
-$VpsHost    = 'bot-vps'     # ssh config alias for the VPS
+$VpsHost    = 'bot-vps-agproxy'  # ssh config alias -> dedicated key ~/.ssh/ag-proxy
 $LocalPort  = 18080         # proxy listens here on this PC (loopback only)
 $RemotePort = 18081         # tunnel port on the VPS loopback; must match the 9Router pool URL
 $ProxyJs    = Join-Path $PSScriptRoot 'connect-proxy.cjs'   # .cjs: repo package.json has "type": "module"
@@ -39,13 +39,11 @@ function Ensure-Proxy {
 function Clear-RemotePort {
     # Kill whatever still holds the tunnel port on the VPS. fuser is the reliable path; the ss
     # fallback covers hosts without it. Both need passwordless sudo (NOPASSWD) for the ssh user.
-    ssh -o ConnectTimeout=10 $VpsHost @"
-sudo -n fuser -k -n tcp $RemotePort >/dev/null 2>&1 || {
-  p=`$(sudo -n ss -ltnpH 'sport = :$RemotePort' 2>/dev/null | grep -o 'pid=[0-9]*' | head -1 | cut -d= -f2)
-  [ -n "`$p" ] && sudo -n kill `$p
-}
-true
-"@
+    # Passed as an ssh argument, never through a PowerShell pipeline: piped or here-string text
+    # carries CRLF, and Linux bash then runs a command name with a trailing carriage return.
+    # Symptom is exit 127 with "command not found" in the log, which reads like missing sudo.
+    $cmd = "sudo -n fuser -k -n tcp $RemotePort >/dev/null 2>&1 || sudo -n ss -ltnpH 'sport = :$RemotePort' 2>/dev/null | grep -o 'pid=[0-9]*' | head -1 | cut -d= -f2 | xargs -r sudo -n kill; true"
+    ssh -o ConnectTimeout=10 -o BatchMode=yes $VpsHost $cmd 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "$(Get-Date -Format T) cleanup on $VpsHost returned exit $LASTEXITCODE (ssh user may lack passwordless sudo)"
     }
